@@ -1,0 +1,5 @@
+{
+	"dependencies": {
+		"@chainlink/env-enc": "^1.0.5"
+	}
+}
