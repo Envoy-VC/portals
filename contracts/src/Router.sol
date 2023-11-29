@@ -81,14 +81,13 @@ contract Router is Withdraw, CCIPReceiver, CCIPFeesTypes, ILogAutomation {
         uint256 tokenId = uint256(log.topics[2]);
 
         performData = abi.encode(chainId, tokenId);
-        return (true, "");
+        return (true, performData);
     }
 
     function performUpkeep(bytes calldata performData) external override {
         (uint256 chainId, uint256 tokenId) = abi.decode(performData, (uint256, uint256));
-        // TODO Perform Request for nft
         string memory source = "";
-        bytes memory encryptedSecretsUrls = "0x";
+        bytes memory encryptedSecretsUrls = "";
         uint8 donHostedSecretsSlotID = 0;
         uint64 donHostedSecretsVersion = 0;
         string[] memory args = new string[](2);
@@ -163,6 +162,10 @@ contract Router is Withdraw, CCIPReceiver, CCIPFeesTypes, ILogAutomation {
     }
 
     // Admin Functions
+    function setMinter(address minter, bool isMinter_) external onlyOwner {
+        isMinter[minter] = isMinter_;
+    }
+
     function setDonId(string memory _donId) external onlyOwner {
         donId = bytes32(abi.encodePacked(_donId));
     }

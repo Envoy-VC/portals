@@ -21,12 +21,19 @@ const getConfigForChain = (chain: chains) => {
 
 Deployed Addresses
 
-FUJI
-Portals - 0x8f966BC6Ad2D241a01C1f7634C47c7419Ce96830
-Minter - 0xe86b1899376c77e1a109eA2124E462EF58E56897
+Fuji
+
+Router - 0x3b9A09147840FeC2B40234ca717C8DEEa13985Ba
+Portals - 0x78D023dC5AB81d9D6A63a1fc3A54503fDA921769
+Functions Subscription - https://functions.chain.link/fuji/1516
+Automation Subscription - https://automation.chain.link/fuji/69150918762620993605215613243496993183524843408030451639662141418885985618390
+
 
 Mumbai
-Portals - 0xC360D4C071734F409aa899BFb73EF5c8d7f3F0Bf
-Minter - 0x6737a06B4cE59AAe48Fbf3aEf3E1332229Cd0772
+
+Router - 0x3e81ADb2d5e250bFdE89B472EfF18E85938e8399
+Portals - 0x3a4025fFF32FDd304e503f1Cca8173fFAC3fD17b
+Functions Subscription - https://functions.chain.link/mumbai/979
+Automation Subscription - https://automation.chain.link/mumbai/57722398432969380491685220700205044622963765696328206903423414925661863156189
 
 */

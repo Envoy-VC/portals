@@ -29,7 +29,6 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
 
     Router router;
     uint256 public _nextTokenId;
-    mapping(address => bool) public isMinter;
 
     error NotRouter();
     error NotOwnerOfToken(uint256 tokenId, address user);
