@@ -9,8 +9,8 @@ export default {
 				secondary: '#0092A2',
 			},
 			animation: {
-				marquee: 'marquee 125s linear infinite',
-				marquee2: 'marquee2 125s linear infinite',
+				marquee: 'marquee 100s linear infinite',
+				marquee2: 'marquee2 100s linear infinite',
 			},
 			keyframes: {
 				marquee: {

@@ -1,15 +1,9 @@
 import React from 'react';
-import {
-	Ethereum,
-	Polygon,
-	Avalanche,
-	Optimism,
-	Binance,
-	Arbitrum,
-} from '@thirdweb-dev/chains';
-
 import { Avatar } from 'antd';
 
+import { supportedChains } from '~/utils';
+
+// Icons
 import { TbJewishStarFilled } from 'react-icons/tb';
 
 const SupportedChains = () => {
@@ -56,32 +50,5 @@ const SupportedChains = () => {
 		</div>
 	);
 };
-
-const supportedChains = [
-	{
-		name: 'Ethereum',
-		chain: Ethereum,
-	},
-	{
-		name: 'Polygon',
-		chain: Polygon,
-	},
-	{
-		name: 'Avalanche',
-		chain: Avalanche,
-	},
-	{
-		name: 'Optimism',
-		chain: Optimism,
-	},
-	{
-		name: 'Binance',
-		chain: Binance,
-	},
-	{
-		name: 'Arbitrum',
-		chain: Arbitrum,
-	},
-];
 
 export default SupportedChains;
