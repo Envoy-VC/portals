@@ -12,12 +12,12 @@ const Home: NextPageWithLayout = () => {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				chainId: "80001",
-				tokenId: "5",
+				chainId: '80001',
+				tokenId: '5',
 			}),
 		});
 		const data = (await res.json()) as { encodedBytes: string };
-		console.log(data);
+		console.log(res);
 	};
 	return (
 		<div className='flex h-screen items-center justify-center p-24'>
