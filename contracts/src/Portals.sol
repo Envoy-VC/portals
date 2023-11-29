@@ -5,50 +5,143 @@ pragma solidity ^0.8.19;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
-// CCIP Imports 
-import {LinkTokenInterface} from "@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
-import {IRouterClient} from "@chainlink/contracts-ccip/src/v0.8/ccip/interfaces/IRouterClient.sol";
-import {Client} from "@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.sol";
-import {Withdraw} from "./utils/Withdraw.sol";
+// CCIP Contract
+import {Router} from "./Router.sol";
+import {CCIPFeesTypes} from "./interfaces/CCIPFeesTypes.sol";
 
+// Functions Imports
+import {FunctionsClient} from "@chainlink/contracts/src/v0.8/functions/dev/v1_0_0/FunctionsClient.sol";
+import {ConfirmedOwner} from "@chainlink/contracts/src/v0.8/shared/access/ConfirmedOwner.sol";
+import {FunctionsRequest} from "@chainlink/contracts/src/v0.8/functions/dev/v1_0_0/libraries/FunctionsRequest.sol";
 
-// Avalanche Fuji Router Address - 0x554472a2720e5e7d5d3c817529aba05eed5f82d8
-// Mumbai Tesnet Router Address - 0x70499c328e1e2a3c41108bd3730f6670a44595d1
+contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, FunctionsClient, ConfirmedOwner {
+    using FunctionsRequest for FunctionsRequest.Request;
 
+    bytes32 public s_lastRequestId;
+    bytes public s_lastResponse;
+    bytes public s_lastError;
 
-contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
-    uint256 private _nextTokenId;
+    error UnexpectedRequestID(bytes32 requestId);
 
-    constructor(address initialOwner)
-        ERC721("MyToken", "MTK")
-        Ownable(initialOwner)
+    event Response(bytes32 indexed requestId, bytes response, bytes err);
+    event CrossChainMintSuccess(uint256 chainId, uint256 tokenId);
+
+    Router router;
+    uint256 public _nextTokenId;
+    mapping(address => bool) public isMinter;
+
+    error NotRouter();
+    error NotOwnerOfToken(uint256 tokenId, address user);
+    error NotAllowed();
+
+    constructor(address initialOwner, address functionsRouter)
+        ERC721("Portals", "PORTAL")
+        FunctionsClient(functionsRouter)
+        ConfirmedOwner(initialOwner)
     {}
 
-    function safeMint(address to, string memory uri) public onlyOwner {
+    function setRouter(address _router) public onlyOwner {
+        router = Router(payable(address(_router)));
+    }
+
+    modifier onlyRouter() {
+        if (msg.sender != address(router)) {
+            revert NotRouter();
+        }
+        _;
+    }
+
+    function getNextTokenId() public returns (uint256) {
+        return _nextTokenId + 1;
+    }
+
+    function safeMint(address to, string memory uri) public onlyRouter {
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
     }
 
-    // The following functions are overrides required by Solidity.
+    function crossChainMint(address to, string memory uri) public onlyRouter {
+        uint256 tokenId = _nextTokenId++;
+        _safeMint(to, tokenId);
+        _setTokenURI(tokenId, uri);
+        emit CrossChainMintSuccess(block.chainid, tokenId);
+    }
 
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
-    {
+    function requestCrossChainTransfer(
+        uint256 tokenId,
+        uint64 destinationChainSelector,
+        address receiver,
+        PayFeesIn payFeesIn,
+        address to
+    ) public {
+        if (ownerOf(tokenId) != msg.sender) {
+            revert NotOwnerOfToken(tokenId, msg.sender);
+        }
+        string memory uri = tokenURI(tokenId);
+        burn(tokenId);
+        router.crossChainTransfer(destinationChainSelector, receiver, payFeesIn, tokenId, to, uri);
+    }
+
+    // The following functions are overrides required by Solidity.
+    function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
         return super.tokenURI(tokenId);
     }
 
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (bool)
-    {
+    function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721URIStorage) returns (bool) {
         return super.supportsInterface(interfaceId);
+    }
+
+    function _setTokenURI(uint256 tokenId, string memory _tokenURI) internal override(ERC721URIStorage) {
+        if (msg.sender != address(this)) {
+            revert NotAllowed();
+        }
+        return super._setTokenURI(tokenId, _tokenURI);
+    }
+
+    // Chainlink Functions
+
+    function sendRequest(
+        string memory source,
+        bytes memory encryptedSecretsUrls,
+        uint8 donHostedSecretsSlotID,
+        uint64 donHostedSecretsVersion,
+        string[] memory args,
+        bytes[] memory bytesArgs,
+        uint64 subscriptionId,
+        uint32 gasLimit,
+        bytes32 donID
+    ) external onlyRouter returns (bytes32 requestId) {
+        FunctionsRequest.Request memory req;
+        req.initializeRequestForInlineJavaScript(source);
+        if (encryptedSecretsUrls.length > 0) {
+            req.addSecretsReference(encryptedSecretsUrls);
+        } else if (donHostedSecretsVersion > 0) {
+            req.addDONHostedSecrets(donHostedSecretsSlotID, donHostedSecretsVersion);
+        }
+        if (args.length > 0) req.setArgs(args);
+        if (bytesArgs.length > 0) req.setBytesArgs(bytesArgs);
+        s_lastRequestId = _sendRequest(req.encodeCBOR(), subscriptionId, gasLimit, donID);
+        return s_lastRequestId;
+    }
+
+    function sendRequestCBOR(bytes memory request, uint64 subscriptionId, uint32 gasLimit, bytes32 donID)
+        external
+        returns (bytes32 requestId)
+    {
+        s_lastRequestId = _sendRequest(request, subscriptionId, gasLimit, donID);
+        return s_lastRequestId;
+    }
+
+    function fulfillRequest(bytes32 requestId, bytes memory response, bytes memory err) internal override {
+        if (s_lastRequestId != requestId) {
+            revert UnexpectedRequestID(requestId);
+        }
+        s_lastResponse = response;
+        (uint256 tokenId, string memory newURI) = abi.decode(response, (uint256, string));
+        _setTokenURI(tokenId, newURI);
+        s_lastError = err;
+        emit Response(requestId, s_lastResponse, s_lastError);
     }
 }

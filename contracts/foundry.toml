@@ -3,4 +3,12 @@ src = "src"
 out = "out"
 libs = ["lib"]
 
+[rpc_endpoints]
+mumbai="${MUMBAI_RPC}"
+fuji="${FUJI_RPC}"
+
+[etherscan]
+mumbai = { key = "${MUMBAI_ETHERSCAN_API_KEY}" }
+fuji = { key = "${FUJI_ETHERSCAN_API_KEY}" }
+
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
