@@ -17,7 +17,7 @@ const Home: NextPageWithLayout = () => {
 			}),
 		});
 		const data = (await res.json()) as { encodedBytes: string };
-		console.log(res);
+		console.log(data);
 	};
 	return (
 		<div className='flex h-screen items-center justify-center p-24'>
