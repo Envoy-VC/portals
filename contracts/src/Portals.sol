@@ -52,10 +52,6 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
         _;
     }
 
-    function getNextTokenId() public returns (uint256) {
-        return _nextTokenId + 1;
-    }
-
     function safeMint(address to, string memory uri) public onlyRouter {
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);

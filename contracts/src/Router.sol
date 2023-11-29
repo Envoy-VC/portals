@@ -149,7 +149,6 @@ contract Router is Withdraw, CCIPReceiver, CCIPFeesTypes, ILogAutomation {
     // Receive Cross chain Transfers
     function _ccipReceive(Client.Any2EVMMessage memory message) internal override {
         (bool success,) = address(nft).call(message.data);
-        uint256 nextTokenId = nft.getNextTokenId();
         if (!success) {
             revert CrossChainMintError(message);
         }
