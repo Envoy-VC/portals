@@ -4,14 +4,12 @@ import {
 	AntDesignConfigProvider,
 	NotificationProvider,
 } from '~/providers';
-import { ThemeProvider } from 'next-themes';
 
 import clsx from 'clsx';
 import { Navbar, SEO } from '~/components/common';
 
 // Font
-import { Inter } from 'next/font/google';
-const inter = Inter({ subsets: ['latin'] });
+import { GeistSans } from 'geist/font/sans';
 
 interface Props {
 	children: React.ReactNode;
@@ -19,19 +17,19 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
 	return (
-		<ThemeProvider attribute='class' enableSystem={false}>
+		<>
+			<SEO />
 			<AntDesignConfigProvider>
 				<Web3Provider>
 					<NotificationProvider>
-						<div className={clsx(inter.className)}>
-							<SEO />
+						<div className={GeistSans.className}>
 							<Navbar />
 							{children}
 						</div>
 					</NotificationProvider>
 				</Web3Provider>
 			</AntDesignConfigProvider>
-		</ThemeProvider>
+		</>
 	);
 };
 

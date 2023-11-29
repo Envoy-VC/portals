@@ -27,6 +27,7 @@ const Web3Provider = ({ children }: Props) => {
 			activeChain={Ethereum}
 			supportedChains={[Ethereum, Polygon]}
 			dAppMeta={dAppMetadata}
+			theme={'dark'}
 			supportedWallets={[
 				metamaskWallet(),
 				coinbaseWallet(),
