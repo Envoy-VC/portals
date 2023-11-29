@@ -2,6 +2,8 @@ import { Button } from 'antd';
 import React from 'react';
 import { useRouter } from 'next/router';
 
+import { SupportedChains } from '~/components/home';
+
 // Icons
 import { GiPortal } from 'react-icons/gi';
 
@@ -31,6 +33,9 @@ const Hero = () => {
 					<GiPortal className='text-xl transition-all duration-200 ease-in group-hover:scale-110' />
 					Create
 				</Button>
+			</div>
+			<div>
+				<SupportedChains />
 			</div>
 		</div>
 	);

@@ -1,12 +1,15 @@
 import React from 'react';
 import Image from 'next/image';
 import { ConnectWallet, darkTheme } from '@thirdweb-dev/react';
+import { useAddress } from '@thirdweb-dev/react';
 
 // Icons
 import { PortalsLogo } from '~/assets';
 import Link from 'next/link';
+import clsx from 'clsx';
 
 const Navbar = () => {
+	const address = useAddress();
 	return (
 		<div className='border-b-[1px] border-[#2E2D32] px-4 py-4'>
 			<div className='flex flex-row items-center justify-between gap-4'>
@@ -20,13 +23,15 @@ const Navbar = () => {
 							key={index}
 							href={item.href}
 							passHref
-							className='hover:text-primary text-[1.1em] font-medium text-gray-200 transition-all duration-200 ease-out'
+							className='text-[1.1em] font-medium text-gray-200 transition-all duration-200 ease-out hover:text-primary'
 						>
 							{item.name}
 						</Link>
 					))}
 				</div>
-				<div className='border-[1px] border-white py-[2px]'>
+				<div
+					className={clsx('', !address &&'border-[1px] border-white py-[2px]')}
+				>
 					<ConnectWallet
 						theme={darkTheme({
 							colors: {
