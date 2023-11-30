@@ -12,7 +12,7 @@ require('@chainlink/env-enc').config();
 
 const stimulateRequest = async () => {
 	const source = fs
-		.readFileSync(path.resolve(__dirname, 'source.js'))
+		.readFileSync(path.resolve(__dirname, 'source-inline.js'))
 		.toString();
 
 	const args = ['80001', '5'];

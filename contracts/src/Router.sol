@@ -45,6 +45,9 @@ contract Router is Withdraw, CCIPReceiver, CCIPFeesTypes, ILogAutomation {
 
     error CrossChainMintError(Client.Any2EVMMessage message);
 
+    string public source =
+        "const chainId = args[0];const tokenId = args[1];const url = 'https://portals-teal.vercel.app/api/update-acc';const req =Functions.makeHttpRequest({url: url,method: 'POST',headers: { 'Content-Type': 'application/json' },data: { chainId: chainId, tokenId: tokenId },});const response = await req;let hexString = response['data'];hexString = hexString.substring(2);const arrayBuffer = new Uint8Array(hexString.length / 2 - 1);for (var i = 4; i < hexString.length; i += 2) {var byteValue = parseInt(hexString.substr(i, 2), 16);arrayBuffer[i / 2] = byteValue;}return arrayBuffer;";
+
     modifier onlyMinter() {
         if (!isMinter[msg.sender]) {
             revert UnAuthorizedMinter();
@@ -86,7 +89,6 @@ contract Router is Withdraw, CCIPReceiver, CCIPFeesTypes, ILogAutomation {
 
     function performUpkeep(bytes calldata performData) external override {
         (uint256 chainId, uint256 tokenId) = abi.decode(performData, (uint256, uint256));
-        string memory source = "";
         bytes memory encryptedSecretsUrls = "";
         uint8 donHostedSecretsSlotID = 0;
         uint64 donHostedSecretsVersion = 0;
@@ -176,5 +178,9 @@ contract Router is Withdraw, CCIPReceiver, CCIPFeesTypes, ILogAutomation {
 
     function setGasLimit(uint32 _gasLimit) external onlyOwner {
         gasLimit = _gasLimit;
+    }
+
+    function changeSource(string memory _source) public onlyOwner {
+        source = _source;
     }
 }

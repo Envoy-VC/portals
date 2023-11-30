@@ -23,17 +23,21 @@ Deployed Addresses
 
 Fuji
 
-Router - 0x3b9A09147840FeC2B40234ca717C8DEEa13985Ba
-Portals - 0x78D023dC5AB81d9D6A63a1fc3A54503fDA921769
+Router - 0x35B9735CBd4e7Af1532aB2449Ce67Bd308539324
+Portals - 0x12d854fccBf99dAd1d445cd741AC353e8d211E18
 Functions Subscription - https://functions.chain.link/fuji/1516
-Automation Subscription - https://automation.chain.link/fuji/69150918762620993605215613243496993183524843408030451639662141418885985618390
+Automation Subscription - https://automation.chain.link/fuji/30639587551351841759240286956000535517721002197692298165509602739266882274148
 
 
 Mumbai
 
-Router - 0x3e81ADb2d5e250bFdE89B472EfF18E85938e8399
-Portals - 0x3a4025fFF32FDd304e503f1Cca8173fFAC3fD17b
+Router - 0x57715fFaC87ca0d4b6C251467995fB59989c766b
+Portals - 0x761C1f4acCaE40B6F7068791307710AaCDB11Ad5
 Functions Subscription - https://functions.chain.link/mumbai/979
-Automation Subscription - https://automation.chain.link/mumbai/57722398432969380491685220700205044622963765696328206903423414925661863156189
+Automation Subscription - https://automation.chain.link/mumbai/109650227050503539409677581393538638995138077298561471877700723870669320844539
+
+
+In functions subscription -  Consumer will be Portals Contracts
+In automation subscription - Automation Contract will be Router, Event emitting contract is Portals
 
 */

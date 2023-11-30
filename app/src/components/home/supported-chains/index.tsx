@@ -14,7 +14,7 @@ const SupportedChains = () => {
 			<div
 				className={clsx(
 					'relative mx-auto max-w-[1125px] overflow-x-hidden py-[2px]',
-					theme === 'dark' ? 'supportedChainBg ' : ' supportedChainBgLight'
+					theme === 'dark' ? 'supportedChainBg ' : 'supportedChainBgLight'
 				)}
 			>
 				<div
