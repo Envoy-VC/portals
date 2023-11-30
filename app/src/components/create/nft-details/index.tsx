@@ -3,7 +3,7 @@ import { FormInput, FormTextarea } from '~/components/common';
 
 const NFTDetails = () => {
 	return (
-		<div className='flex flex-col gap-3 py-4 text-gray-200'>
+		<div className='flex flex-col gap-3 py-4 dark:text-gray-200'>
 			<div className='text-3xl font-medium'>Item Details</div>
 			<div className='flex flex-col gap-2'>
 				<div className='flex flex-col gap-2'>

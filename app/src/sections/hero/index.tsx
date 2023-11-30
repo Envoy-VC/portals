@@ -11,7 +11,7 @@ const Hero = () => {
 	const router = useRouter();
 
 	return (
-		<div className='py-24'>
+		<div className='h-screen py-24'>
 			<div className='mx-auto flex max-w-screen-xl flex-col gap-6 '>
 				<h1 className='text-center text-5xl font-semibold md:text-8xl'>
 					Discover the power of cross-chain content NFTs

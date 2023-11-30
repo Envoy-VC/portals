@@ -16,7 +16,7 @@ const ChainSelect = () => {
 				label: (
 					<div className='flex flex-row gap-2'>
 						<Avatar src={imageUrl} alt={chain.name} size={24} />
-						<span className='text-lg font-medium text-[#ffffffd8]'>{chain.name}</span>
+						<span className='text-lg font-medium dark:text-[#ffffffd8]'>{chain.name}</span>
 					</div>
 				),
 				value: String(chain.chainId),
@@ -25,7 +25,7 @@ const ChainSelect = () => {
 	];
 
 	return (
-		<div className='flex flex-col gap-3 text-gray-200'>
+		<div className='flex flex-col gap-3 dark:text-gray-200'>
 			<div className='text-2xl font-medium'>Select Chain</div>
 			<Select
 				placeholder='Select Chain to Mint on'

@@ -9,14 +9,7 @@ interface Props extends TextAreaProps {
 
 const FormTextarea = ({ ...props }: Props) => {
 	return (
-		<ConfigProvider
-			theme={{
-				token: {
-					colorBgBase: '#00000',
-					colorBgContainer: '#000',
-				},
-			}}
-		>
+		<ConfigProvider theme={{}}>
 			<Input.TextArea {...props} />
 		</ConfigProvider>
 	);

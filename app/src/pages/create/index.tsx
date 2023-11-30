@@ -7,7 +7,7 @@ import { UploadContent, ChainSelect, NFTDetails } from '~/components/create';
 const Create: NextPageWithLayout = () => {
 	return (
 		<div className='px-4 py-24'>
-			<div className='mx-auto max-w-screen-2xl text-3xl font-semibold text-gray-100'>
+			<div className='mx-auto max-w-screen-2xl text-3xl font-semibold dark:text-gray-100'>
 				Create a Content NFT
 			</div>
 			<div className='mx-auto flex max-w-screen-2xl flex-col gap-8 py-12 lg:flex-row'>

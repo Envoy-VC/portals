@@ -5,11 +5,12 @@ import {
 	NotificationProvider,
 } from '~/providers';
 
-import clsx from 'clsx';
+import { ThemeProvider } from 'next-themes';
 import { Navbar, SEO } from '~/components/common';
 
 // Font
 import { GeistSans } from 'geist/font/sans';
+import clsx from 'clsx';
 
 interface Props {
 	children: React.ReactNode;
@@ -18,17 +19,19 @@ interface Props {
 const Layout = ({ children }: Props) => {
 	return (
 		<>
-			<SEO />
-			<AntDesignConfigProvider>
-				<Web3Provider>
-					<NotificationProvider>
-						<div className={GeistSans.className}>
-							<Navbar />
-							{children}
-						</div>
-					</NotificationProvider>
-				</Web3Provider>
-			</AntDesignConfigProvider>
+			<ThemeProvider attribute='class'>
+				<SEO />
+				<AntDesignConfigProvider>
+					<Web3Provider>
+						<NotificationProvider>
+							<div className={clsx(GeistSans.className)}>
+								<Navbar />
+								{children}
+							</div>
+						</NotificationProvider>
+					</Web3Provider>
+				</AntDesignConfigProvider>
+			</ThemeProvider>
 		</>
 	);
 };

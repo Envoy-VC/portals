@@ -8,6 +8,7 @@ import {
 	localWallet,
 } from '@thirdweb-dev/react';
 import { Ethereum, Polygon } from '@thirdweb-dev/chains';
+import { useTheme } from 'next-themes';
 
 // Metadata
 import { dAppMetadata } from 'config';
@@ -21,13 +22,15 @@ interface Props {
 }
 
 const Web3Provider = ({ children }: Props) => {
+	const { theme } = useTheme();
+
 	return (
 		<ThirdwebProvider
 			clientId={NEXT_PUBLIC_TW_CLIENT_ID}
 			activeChain={Ethereum}
 			supportedChains={[Ethereum, Polygon]}
 			dAppMeta={dAppMetadata}
-			theme={'dark'}
+			theme={theme && theme === 'dark' ? 'dark' : 'light'}
 			supportedWallets={[
 				metamaskWallet(),
 				coinbaseWallet(),

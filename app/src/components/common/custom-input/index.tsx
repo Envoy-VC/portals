@@ -9,14 +9,7 @@ interface Props extends InputProps {
 
 const FormInput = ({ ...props }: Props) => {
 	return (
-		<ConfigProvider
-			theme={{
-				token: {
-					colorBgBase: '#00000',
-					colorBgContainer: '#000',
-				},
-			}}
-		>
+		<ConfigProvider theme={{}}>
 			<Input {...props} />
 		</ConfigProvider>
 	);

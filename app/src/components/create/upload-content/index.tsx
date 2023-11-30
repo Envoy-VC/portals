@@ -28,7 +28,7 @@ const UploadContent = () => {
 	};
 
 	return (
-		<div className='flex flex-col gap-3 text-gray-200'>
+		<div className='flex flex-col gap-3 dark:text-gray-200'>
 			<div className='text-2xl font-medium'>Upload Content</div>
 			<div>Drag or choose your file to Upload</div>
 			<Dragger
