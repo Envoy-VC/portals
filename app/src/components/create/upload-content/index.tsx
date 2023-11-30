@@ -3,6 +3,7 @@ import type { UploadProps, UploadFile } from 'antd';
 import { Upload } from 'antd';
 
 import { TbFileUpload } from 'react-icons/tb';
+import clsx from 'clsx';
 
 const { Dragger } = Upload;
 
@@ -30,7 +31,11 @@ const UploadContent = () => {
 		<div className='flex flex-col gap-3 text-gray-200'>
 			<div className='text-2xl font-medium'>Upload Content</div>
 			<div>Drag or choose your file to Upload</div>
-			<Dragger {...props} prefixCls=''>
+			<Dragger
+				{...props}
+				prefixCls=''
+				rootClassName={clsx(fileList.length && 'mb-24')}
+			>
 				<div className='group flex flex-col items-center justify-center gap-4 rounded-xl py-16'>
 					<div>
 						<TbFileUpload className='text-[4rem]' />
