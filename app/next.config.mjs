@@ -7,7 +7,18 @@ await import('./src/env.mjs');
 /** @type {import("next").NextConfig} */
 const config = {
 	reactStrictMode: true,
-	transpilePackages: ['geist'],
+	transpilePackages: [
+		'geist',
+		'antd',
+		'@ant-design',
+		'rc-util',
+		'rc-pagination',
+		'rc-picker',
+		'rc-notification',
+		'rc-tooltip',
+		'rc-tree',
+		'rc-table',
+	],
 
 	/**
 	 * If you are using `appDir` then you must comment the below `i18n` config out.
