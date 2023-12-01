@@ -53,15 +53,21 @@ const NFTTraitInput = ({ Icon, label, description }: NFTTraitInputProps) => {
 	return (
 		<div className='flex flex-row items-center justify-between '>
 			<div className='flex flex-row items-start gap-2'>
-				<Icon className='mt-1 text-xl text-slate-700' />
+				<Icon className='mt-1 text-xl text-slate-700 dark:text-gray-300' />
 				<div className='flex flex-col'>
-					<span className='font-medium text-slate-700'>{label}</span>
-					<span className='text-sm text-gray-500'>{description}</span>
+					<span className='font-medium text-slate-700 dark:text-gray-300'>
+						{label}
+					</span>
+					<span className='text-sm text-gray-500 dark:text-gray-500'>
+						{description}
+					</span>
 				</div>
 			</div>
 			<Button
 				type='text'
-				icon={<TbCirclePlus className='text-2xl text-slate-700' />}
+				icon={
+					<TbCirclePlus className='text-2xl text-slate-700 dark:text-gray-300' />
+				}
 			/>
 		</div>
 	);

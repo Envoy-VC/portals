@@ -28,6 +28,7 @@ const Home: NextPageWithLayout = () => {
 			<Button
 				// eslint-disable-next-line @typescript-eslint/no-misused-promises
 				onClick={onClick}
+				className='hidden'
 			>
 				Click
 			</Button>

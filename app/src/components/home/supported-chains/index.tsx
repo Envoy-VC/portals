@@ -48,7 +48,7 @@ const SupportedChains = () => {
 								<div key={index} className='flex flex-row items-center'>
 									<div className='flex flex-row items-center gap-2'>
 										<Avatar src={imageUrl} alt={chain.name} size={32} />
-										<span className='text-xl font-semibold text-[#ffffffd8]'>
+										<span className='text-xl font-semibold text-slate-700 dark:text-[#ffffffd8]'>
 											{chain.name}
 										</span>
 									</div>
