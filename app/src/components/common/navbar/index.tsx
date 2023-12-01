@@ -14,8 +14,8 @@ const Navbar = () => {
 	const address = useAddress();
 	const { theme } = useTheme();
 	return (
-		<div className='border-b-[1px] dark:border-[#2E2D32] px-4 py-4'>
-			<div className='flex flex-row items-center justify-between gap-4'>
+		<div className='border-b-[1px] px-4 py-4 dark:border-[#2E2D32]'>
+			<div className='mx-auto flex max-w-screen-2xl flex-row items-center justify-between gap-4'>
 				<div className='flex flex-row items-center gap-2'>
 					<Image src={PortalsLogo} alt='Portals Logo' width={38} height={38} />
 					<span className='text-2xl font-semibold'>Portals</span>

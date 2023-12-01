@@ -5,6 +5,8 @@ import type { NextPageWithLayout } from '../_app';
 
 import { useRouter } from 'next/router';
 
+import { NFTImage } from '~/components/assets';
+
 const supportedChains = ['mumbai', 'fuji'];
 
 const Asset: NextPageWithLayout = () => {
@@ -19,10 +21,13 @@ const Asset: NextPageWithLayout = () => {
 		return <div>only mumbai and fuji supported</div>;
 	} else
 		return (
-			<div>
-				<h1>
-					Asset on chain {chain} with token id {tokenId}
-				</h1>
+			<div className='mx-auto h-screen w-full max-w-screen-2xl py-12'>
+				<div className='flex flex-col gap-10 lg:flex-row'>
+					<div className='w-full basis-1/3'>
+						<NFTImage chain={chain} tokenId={tokenId} />
+					</div>
+					<div className='w-full basis-2/3 border-2 p-4'></div>
+				</div>
 			</div>
 		);
 };
