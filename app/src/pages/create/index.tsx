@@ -2,7 +2,12 @@ import type { ReactElement } from 'react';
 import { Layout } from '~/components';
 import type { NextPageWithLayout } from '../_app';
 
-import { UploadContent, ChainSelect, NFTDetails } from '~/components/create';
+import {
+	UploadContent,
+	ChainSelect,
+	NFTDetails,
+	NFTPreview,
+} from '~/components/create';
 
 const Create: NextPageWithLayout = () => {
 	return (
@@ -16,8 +21,8 @@ const Create: NextPageWithLayout = () => {
 					<ChainSelect />
 					<NFTDetails />
 				</div>
-				<div className='w-full basis-1/3 border-2'>
-					<div>preview nft</div>
+				<div className='w-full basis-1/3'>
+					<NFTPreview />
 					<div>traits inputs</div>
 				</div>
 			</div>
