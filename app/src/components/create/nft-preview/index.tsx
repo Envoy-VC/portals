@@ -1,11 +1,22 @@
 import { Image } from 'antd';
 import React from 'react';
+import { Button } from 'antd';
+
+// Icons
+import { TbCircleX } from 'react-icons/tb';
 
 const NFTPreview = () => {
 	return (
 		<div className='flex flex-col items-center justify-center gap-3'>
 			<div className='text-center text-2xl font-medium'>NFT Preview</div>
 			<NFTImage />
+			<Button
+				type='link'
+				className='flex flex-row items-center gap-1 text-gray-400 hover:!text-gray-400'
+			>
+				<TbCircleX className='text-lg text-gray-400' />
+				Clear All
+			</Button>
 		</div>
 	);
 };
@@ -22,7 +33,7 @@ const NFTImage = () => {
 					preview={false}
 				/>
 			</div>
-			<div className='text-center text-xl font-semibold text-slate-800'>
+			<div className='text-center text-xl font-medium text-slate-800'>
 				<span>Water Color Illustration</span>
 			</div>
 		</div>

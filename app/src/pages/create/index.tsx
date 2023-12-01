@@ -7,6 +7,7 @@ import {
 	ChainSelect,
 	NFTDetails,
 	NFTPreview,
+	NFTTraits,
 } from '~/components/create';
 
 const Create: NextPageWithLayout = () => {
@@ -21,9 +22,9 @@ const Create: NextPageWithLayout = () => {
 					<ChainSelect />
 					<NFTDetails />
 				</div>
-				<div className='w-full basis-1/3'>
+				<div className='flex w-full basis-1/3 flex-col gap-8'>
 					<NFTPreview />
-					<div>traits inputs</div>
+					<NFTTraits />
 				</div>
 			</div>
 		</div>
