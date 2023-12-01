@@ -18,21 +18,26 @@ import {FunctionsRequest} from "@chainlink/contracts/src/v0.8/functions/dev/v1_0
 contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, FunctionsClient, ConfirmedOwner {
     using FunctionsRequest for FunctionsRequest.Request;
 
+    // State Variables
     bytes32 public s_lastRequestId;
     bytes public s_lastResponse;
     bytes public s_lastError;
 
-    error UnexpectedRequestID(bytes32 requestId);
-
-    event Response(bytes32 indexed requestId, bytes response, bytes err);
-    event CrossChainMintSuccess(uint256 chainId, uint256 tokenId);
-
-    Router router;
+    Router public router;
     uint256 public _nextTokenId;
 
+    // Errors
     error NotRouter();
     error NotOwnerOfToken(uint256 tokenId, address user);
     error NotAllowed();
+    error UnexpectedRequestID(bytes32 requestId);
+
+    // Events
+    event Response(bytes32 indexed requestId, bytes response, bytes err);
+    event CrossChainTransferRequested(
+        uint256 tokenId, uint64 destinationChainSelector, address receiver, PayFeesIn payFeesIn, address to
+    );
+    event CrossChainMintSuccess(uint256 chainId, uint256 tokenId);
 
     constructor(address initialOwner, address functionsRouter)
         ERC721("Portals", "PORTAL")
@@ -51,12 +56,19 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
         _;
     }
 
+    /// @dev Mint a new token by calling Router
+    /// @param to The address to mint to
+    /// @param uri The URI of the token
     function safeMint(address to, string memory uri) public onlyRouter {
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
     }
 
+    /// @notice Called by Router when a Cross chain Transfer takes place
+    /// @dev Cross Chain Mint
+    /// @param to The address to mint to
+    /// @param uri The URI of the token
     function crossChainMint(address to, string memory uri) public onlyRouter {
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
@@ -64,6 +76,13 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
         emit CrossChainMintSuccess(block.chainid, tokenId);
     }
 
+    /// @notice Called by Token Holder to request a cross chain transfer
+    /// @dev Cross Chain Transfer
+    /// @param tokenId The token to transfer
+    /// @param destinationChainSelector The chain to transfer to
+    /// @param receiver The address to receive the token, Router address on destination chain
+    /// @param payFeesIn The currency to pay fees in (0: Native, 1: LINK)
+    /// @param to The address to mint to
     function requestCrossChainTransfer(
         uint256 tokenId,
         uint64 destinationChainSelector,
@@ -74,9 +93,10 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
         if (ownerOf(tokenId) != msg.sender) {
             revert NotOwnerOfToken(tokenId, msg.sender);
         }
-        string memory uri = tokenURI(tokenId);
+        string memory uri = tokenURI(tokenId);  
         burn(tokenId);
         router.crossChainTransfer(destinationChainSelector, receiver, payFeesIn, tokenId, to, uri);
+        emit CrossChainTransferRequested(tokenId, destinationChainSelector, receiver, payFeesIn, to);
     }
 
     // The following functions are overrides required by Solidity.
@@ -88,15 +108,20 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
         return super.supportsInterface(interfaceId);
     }
 
-    function _setTokenURI(uint256 tokenId, string memory _tokenURI) internal override(ERC721URIStorage) {
-        if (msg.sender != address(this)) {
-            revert NotAllowed();
-        }
-        return super._setTokenURI(tokenId, _tokenURI);
-    }
-
     // Chainlink Functions
 
+    /// @notice Sends a Chainlink Function Request to update URI With Access Control Conditions
+    /// @dev Call to Chainlink Functions, invoked by Router
+    /// @param source The Function Source Code
+    /// @param encryptedSecretsUrls The Encrypted Secrets Urls
+    /// @param donHostedSecretsSlotID The DON Hosted Secrets Slot ID
+    /// @param donHostedSecretsVersion The DON Hosted Secrets Version
+    /// @param args The Function Arguments
+    /// @param bytesArgs The Function Bytes Arguments
+    /// @param subscriptionId The Functions Subscription ID
+    /// @param gasLimit The Gas Limit
+    /// @param donID The DON ID
+    /// @return requestId The Request ID
     function sendRequest(
         string memory source,
         bytes memory encryptedSecretsUrls,
@@ -121,6 +146,13 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
         return s_lastRequestId;
     }
 
+    /// @notice This function sends request to Chainlink Function to update URI With Access Control Conditions
+    /// @dev Call to Chainlink Functions, invoked by Router
+    /// @param request The Function Request
+    /// @param subscriptionId The Functions Subscription ID
+    /// @param gasLimit The Gas Limit
+    /// @param donID The DON ID
+    /// @return requestId The Request ID
     function sendRequestCBOR(bytes memory request, uint64 subscriptionId, uint32 gasLimit, bytes32 donID)
         external
         returns (bytes32 requestId)
@@ -129,6 +161,11 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
         return s_lastRequestId;
     }
 
+    /// @notice The functions updates the uri from the response which  contains tokenId and the new URI
+    /// @dev Return FullFill request to Chainlink Functions
+    /// @param requestId The Request ID
+    /// @param response The Function Response
+    /// @param err The Function Error
     function fulfillRequest(bytes32 requestId, bytes memory response, bytes memory err) internal override {
         if (s_lastRequestId != requestId) {
             revert UnexpectedRequestID(requestId);
