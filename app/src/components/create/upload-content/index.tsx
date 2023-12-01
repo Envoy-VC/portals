@@ -2,7 +2,7 @@ import React from 'react';
 import type { UploadProps, UploadFile } from 'antd';
 import { Upload } from 'antd';
 
-import { TbFileUpload } from 'react-icons/tb';
+import { PiUploadSimple } from 'react-icons/pi';
 import clsx from 'clsx';
 
 const { Dragger } = Upload;
@@ -38,9 +38,9 @@ const UploadContent = () => {
 			>
 				<div className='group flex flex-col items-center justify-center gap-4 rounded-xl py-16'>
 					<div>
-						<TbFileUpload className='text-[4rem]' />
+						<PiUploadSimple className='text-[3rem]' />
 					</div>
-					<div className='max-w-xs whitespace-pre-wrap text-[1rem] font-medium'>
+					<div className='max-w-xs whitespace-pre-wrap text-[1rem]'>
 						PNG, TXT, ZIP, MP4,etc. (Supports all formats).
 					</div>
 				</div>
