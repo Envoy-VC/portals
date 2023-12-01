@@ -17,9 +17,7 @@ const SupportedChains = () => {
 					theme === 'dark' ? 'supportedChainBg ' : 'supportedChainBgLight'
 				)}
 			>
-				<div
-					className={clsx('w-full', theme === 'dark' ? ' bg-black' : 'bg-white')}
-				>
+				<div className={clsx('w-full bg-white dark:bg-black')}>
 					<div className='mx-auto flex w-full max-w-[1125px] animate-marquee flex-row items-center justify-center gap-6 py-8'>
 						{supportedChains.map((chain, index) => {
 							const imageUrl = 'https://ipfs.io/ipfs/' + chain.chain.icon.url.slice(7);
@@ -35,7 +33,6 @@ const SupportedChains = () => {
 											{chain.name}
 										</span>
 									</div>
-
 									<TbJewishStarFilled className='ml-6 text-xs text-gray-300' />
 								</div>
 							);
