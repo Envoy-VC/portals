@@ -14,11 +14,13 @@ export const chainInfo = {
 		routerAddress: '0x9d08CC363Cb972Ac83a2A142F6Eee83207C8927F',
 		portalsAddress: '0x4EdE1a7A2b84F046d90503014e277Bd2EB4332Ba',
 		chainId: 80001,
+		chainSelector: '12532609583862916517',
 	},
 	fuji: {
 		routerAddress: '',
 		portalsAddress: '',
-		chainId: 80001,
+		chainId: 43113,
+		chainSelector: '14767482510784806043',
 	},
 };
 

@@ -58,7 +58,9 @@ const AssetPage = ({ chain, tokenId }: Props) => {
 							owner={owner}
 						/>
 						<DecryptContent content={metadata.content} />
-						{owner && owner === address && <NFTActions />}
+						{owner && owner === address && (
+							<NFTActions chain={chain} tokenId={tokenId} />
+						)}
 					</div>
 				</div>
 			</div>

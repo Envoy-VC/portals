@@ -27,6 +27,7 @@ const Web3Provider = ({ children }: Props) => {
 	return (
 		<ThirdwebProvider
 			clientId={NEXT_PUBLIC_TW_CLIENT_ID}
+			activeChain={Mumbai}
 			supportedChains={[AvalancheFuji, Mumbai]}
 			dAppMeta={dAppMetadata}
 			theme={theme && theme === 'dark' ? 'dark' : 'light'}
