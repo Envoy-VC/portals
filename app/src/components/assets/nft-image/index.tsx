@@ -3,16 +3,17 @@ import Link from 'next/link';
 import { Avatar, Image } from 'antd';
 import { Avalanche, Polygon } from '@thirdweb-dev/chains';
 
-import { NFTPreviewImage } from '~/assets';
+import { sanitizeImage } from '~/utils';
 
 import { SiOpensea } from 'react-icons/si';
 
 interface NFTImageProps {
 	chain: string;
 	tokenId: string;
+	image: string;
 }
 
-const NFTImage = ({ chain, tokenId }: NFTImageProps) => {
+const NFTImage = ({ chain, tokenId, image }: NFTImageProps) => {
 	const getChainInfo = () => {
 		switch (chain) {
 			case 'fuji':
@@ -48,7 +49,7 @@ const NFTImage = ({ chain, tokenId }: NFTImageProps) => {
 			</div>
 			<div className='flex justify-center p-2'>
 				<Image
-					src={NFTPreviewImage.src}
+					src={sanitizeImage(image)}
 					alt='NFT Preview'
 					className='w-full max-w-[400px] '
 					preview={false}

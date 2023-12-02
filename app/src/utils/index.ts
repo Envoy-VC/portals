@@ -65,3 +65,11 @@ export const deployedChains: DeployedChain[] = [
 		chainId: AvalancheFuji.chainId,
 	},
 ];
+
+export const sanitizeImage = (image: string) => {
+	if (image.startsWith('ipfs://')) {
+		return 'https://ipfs.io/ipfs/' + image.replace('ipfs://', '');
+	} else if (image.startsWith('https://')) {
+		return image;
+	} else return image;
+};

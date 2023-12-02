@@ -1,3 +1,4 @@
 import Hero from './hero';
+import AssetPage from './asset';
 
-export { Hero };
+export { Hero, AssetPage };
