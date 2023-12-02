@@ -10,6 +10,7 @@ import { base64StringToBlob } from '@lit-protocol/lit-node-client';
 
 import type { UnifiedAccessControlConditions } from '@lit-protocol/types';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 interface Props {
 	chain: string;
@@ -68,7 +69,13 @@ const DecryptContent = ({ chain, content }: Props) => {
 				{decryptedString && (
 					<p className='break-all'>
 						<span className='font-medium'>Decrypted Content: </span>
-						{decryptedString}
+						<Link
+							href={'https://ipfs.io/ipfs/' + decryptedString.slice(7)}
+							className='text-secondary'
+							target='_blank'
+						>
+							{decryptedString}
+						</Link>
 					</p>
 				)}
 				<Button
