@@ -17,9 +17,9 @@ const Home: NextPageWithLayout = () => {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				chainId: '137',
-				tokenId: '5',
-				uri: 'ipfs://QmRH16YG9492uDCnqc4AyKehJTHYpqDPu7F4VbuB3PprKE',
+				chainId: '43113',
+				tokenId: '1',
+				uri: 'ipfs://QmZArG6TsAd5xfXsDpAQ9ASDcip1As61X6WTdy1ZXCiZeK',
 			}),
 		});
 

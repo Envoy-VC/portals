@@ -23,6 +23,7 @@ export default async function handler(
 	) as UnifiedAccessControlConditions;
 	const chainId = parseInt(body.chainId);
 	const chain = chainId === 80001 ? 'mumbai' : 'fuji';
+	console.log('Chain during decryption is ', chain);
 
 	// Connect to Lit Client
 	const litNodeClient = new LitJsSdk.LitNodeClientNodeJs({

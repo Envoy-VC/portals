@@ -3,6 +3,8 @@ import { chainInfo } from '~/utils';
 import { ThirdwebSDK } from '@thirdweb-dev/sdk';
 import { PORTALS_ABI, ROUTER_ABI } from '~/utils/abi';
 
+import { AvalancheFuji, Mumbai } from '@thirdweb-dev/chains';
+
 import { env } from '~/env.mjs';
 
 export default async function handler(
@@ -22,14 +24,15 @@ export default async function handler(
 			? chainInfo[chain].portalsAddress
 			: chainInfo[chain].routerAddress;
 	const ABI = body.contract === 'portals' ? PORTALS_ABI : ROUTER_ABI;
-
-	const sdk = ThirdwebSDK.fromPrivateKey(env.PRIVATE_KEY, chain, {
+	const thirdwebChain = chain === 'mumbai' ? Mumbai : AvalancheFuji;
+	const sdk = ThirdwebSDK.fromPrivateKey(env.PRIVATE_KEY, thirdwebChain, {
 		secretKey: env.TW_SECRET,
 	});
 
 	const contract = await sdk.getContract(contractAddress, ABI);
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unnecessary-type-assertion, @typescript-eslint/no-explicit-any
 	const data = (await contract.call(body.functionName, body.args)) as any;
+	console.log(data);
 
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	res.status(200).json({ data });

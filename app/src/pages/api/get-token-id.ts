@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { chainInfo } from '~/utils';
 import { ThirdwebSDK } from '@thirdweb-dev/sdk';
 import { PORTALS_ABI } from '~/utils/abi';
-
+import { AvalancheFuji, Mumbai } from '@thirdweb-dev/chains';
 import { env } from '~/env.mjs';
 import { BigNumber } from 'ethers';
 
@@ -16,8 +16,8 @@ export default async function handler(
 	const chainId = parseInt(body.chainId);
 	const chain = chainId === 80001 ? 'mumbai' : 'fuji';
 	const portalsAddress = chainInfo[chain].portalsAddress;
-
-	const sdk = ThirdwebSDK.fromPrivateKey(env.PRIVATE_KEY, chain, {
+	const thirdwebChain = chain === 'mumbai' ? Mumbai : AvalancheFuji;
+	const sdk = ThirdwebSDK.fromPrivateKey(env.PRIVATE_KEY, thirdwebChain, {
 		secretKey: env.TW_SECRET,
 	});
 

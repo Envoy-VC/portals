@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { chainInfo } from '~/utils';
 import { ThirdwebSDK } from '@thirdweb-dev/sdk';
 import { ROUTER_ABI } from '~/utils/abi';
-
+import { AvalancheFuji, Mumbai } from '@thirdweb-dev/chains';
 import { env } from '~/env.mjs';
 
 export default async function handler(
@@ -19,8 +19,8 @@ export default async function handler(
 	const uri = body.uri;
 	const chain = chainId === 80001 ? 'mumbai' : 'fuji';
 	const routerAddress = chainInfo[chain].routerAddress;
-
-	const sdk = ThirdwebSDK.fromPrivateKey(env.PRIVATE_KEY, chain, {
+	const thirdwebChain = chain === 'mumbai' ? Mumbai : AvalancheFuji;
+	const sdk = ThirdwebSDK.fromPrivateKey(env.PRIVATE_KEY, thirdwebChain, {
 		secretKey: env.TW_SECRET,
 	});
 

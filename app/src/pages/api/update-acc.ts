@@ -25,6 +25,7 @@ export default async function handler(
 		content: { encryptedString, encryptedSymmetricKey, accessControlConditions },
 	} = jsonURI;
 	const chain = (accessControlConditions?.at(0) as AccsEVMParams)?.chain;
+	console.log('Chain is ', chain);
 	const chainId = chain === 'mumbai' ? 80001 : 43113;
 
 	// decrypt content
