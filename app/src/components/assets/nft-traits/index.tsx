@@ -5,7 +5,7 @@ import { TbLayoutList, TbStarFilled, TbCellSignal5 } from 'react-icons/tb';
 import { PiLightningFill } from 'react-icons/pi';
 
 import type { IconType } from 'react-icons';
-import { Attribute } from '~/types';
+import type { Attribute } from '~/types';
 
 interface HolderProps {
 	Icon: IconType;

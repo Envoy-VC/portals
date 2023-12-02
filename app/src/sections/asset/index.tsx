@@ -1,6 +1,6 @@
 import React from 'react';
 import { downloadFromIpfs } from '~/helpers';
-
+import { useAddress } from '@thirdweb-dev/react';
 import type { NFTMetadata } from '~/types';
 import { callContractFunction } from '~/helpers';
 
@@ -18,6 +18,9 @@ interface Props {
 }
 
 const AssetPage = ({ chain, tokenId }: Props) => {
+	const address = useAddress();
+
+	const [owner, setOwner] = React.useState<string | null>(null);
 	const [metadata, setMetadata] = React.useState<NFTMetadata | null>(null);
 
 	React.useEffect(() => {
@@ -28,6 +31,13 @@ const AssetPage = ({ chain, tokenId }: Props) => {
 				functionName: 'tokenURI',
 				args: [tokenId],
 			})) as string;
+			const ownerAddr = (await callContractFunction({
+				chainId: chain === 'mumbai' ? '80001' : '43113',
+				contract: 'portals',
+				functionName: 'ownerOf',
+				args: [tokenId],
+			})) as string;
+			setOwner(ownerAddr);
 			const metadata = await downloadFromIpfs(tokenURI);
 			setMetadata(metadata);
 		}
@@ -45,11 +55,10 @@ const AssetPage = ({ chain, tokenId }: Props) => {
 						<NFTDetails
 							title={metadata.name}
 							description={metadata.description}
-							chainId={chain === 'mumbai' ? '80001' : '43113'}
-							tokenId={tokenId}
+							owner={owner}
 						/>
 						<DecryptContent content={metadata.content} />
-						<NFTActions />
+						{owner && owner === address && <NFTActions />}
 					</div>
 				</div>
 			</div>

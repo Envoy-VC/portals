@@ -63,7 +63,7 @@ const CrossChainTransfer = () => {
 			const imageUrl = 'https://ipfs.io/ipfs/' + chain.icon.slice(7);
 			return {
 				label: (
-					<div className='flex flex-row gap-2 items-center'>
+					<div className='flex flex-row items-center gap-2'>
 						<Avatar src={imageUrl} alt={chain.name} size={18} />
 						<span className='text-[1rem] dark:text-[#ffffffd8]'>{chain.name}</span>
 					</div>
@@ -82,8 +82,8 @@ const CrossChainTransfer = () => {
 				onChange={handleChange}
 				optionLabelProp='label'
 				options={options}
-                size='large'
-                className='max-w-xl'
+				size='large'
+				className='max-w-xl'
 			/>
 			<Button className='w-fit !bg-secondary' type='primary' size='large'>
 				Execute

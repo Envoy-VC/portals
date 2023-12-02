@@ -1,28 +1,12 @@
 import React from 'react';
-import { callContractFunction, downloadFromIpfs } from '~/helpers';
 
 interface Props {
 	title: string;
 	description: string;
-	chainId: string;
-	tokenId: string;
+	owner: string | null;
 }
 
-const NFTDetails = ({ title, description, chainId, tokenId }: Props) => {
-	const [owner, setOwner] = React.useState<string | null>(null);
-	React.useEffect(() => {
-		async function fetchOwner() {
-			const ownerAddr = (await callContractFunction({
-				chainId,
-				contract: 'portals',
-				functionName: 'ownerOf',
-				args: [tokenId],
-			})) as string;
-
-			setOwner(ownerAddr);
-		}
-		void fetchOwner();
-	}, []);
+const NFTDetails = ({ title, description, owner }: Props) => {
 	return (
 		<div className='rounded-md border-[1px] border-[#D1D1D1] p-4'>
 			<div className='flex flex-col gap-4'>
