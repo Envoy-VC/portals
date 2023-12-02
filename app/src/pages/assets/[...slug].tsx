@@ -5,7 +5,13 @@ import type { NextPageWithLayout } from '../_app';
 
 import { useRouter } from 'next/router';
 
-import { NFTImage } from '~/components/assets';
+import {
+	NFTImage,
+	NFTTraits,
+	NFTDetails,
+	DecryptContent,
+	NFTActions,
+} from '~/components/assets';
 
 const supportedChains = ['mumbai', 'fuji'];
 
@@ -21,12 +27,17 @@ const Asset: NextPageWithLayout = () => {
 		return <div>only mumbai and fuji supported</div>;
 	} else
 		return (
-			<div className='mx-auto h-screen w-full max-w-screen-2xl py-12'>
-				<div className='flex flex-col gap-10 lg:flex-row'>
-					<div className='w-full basis-1/3'>
+			<div className='mx-auto w-full max-w-screen-2xl py-12'>
+				<div className='flex flex-col gap-10 px-2 lg:flex-row'>
+					<div className='flex w-full basis-1/3 flex-col gap-8'>
 						<NFTImage chain={chain} tokenId={tokenId} />
+						<NFTTraits />
 					</div>
-					<div className='w-full basis-2/3 border-2 p-4'></div>
+					<div className='flex w-full basis-2/3 flex-col gap-6'>
+						<NFTDetails />
+						<DecryptContent />
+						<NFTActions />
+					</div>
 				</div>
 			</div>
 		);

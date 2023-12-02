@@ -37,7 +37,7 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
     event CrossChainTransferRequested(
         uint256 tokenId, uint64 destinationChainSelector, address receiver, PayFeesIn payFeesIn, address to
     );
-    event CrossChainMintSuccess(uint256 chainId, uint256 tokenId);
+    event CrossChainMintSuccess(uint256 chainId, uint256 tokenId, string uri);
 
     constructor(address initialOwner, address functionsRouter)
         ERC721("Portals", "PORTAL")
@@ -73,7 +73,7 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
-        emit CrossChainMintSuccess(block.chainid, tokenId);
+        emit CrossChainMintSuccess(block.chainid, tokenId, uri);
     }
 
     /// @notice Called by Token Holder to request a cross chain transfer
@@ -93,7 +93,7 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
         if (ownerOf(tokenId) != msg.sender) {
             revert NotOwnerOfToken(tokenId, msg.sender);
         }
-        string memory uri = tokenURI(tokenId);  
+        string memory uri = tokenURI(tokenId);
         burn(tokenId);
         router.crossChainTransfer(destinationChainSelector, receiver, payFeesIn, tokenId, to, uri);
         emit CrossChainTransferRequested(tokenId, destinationChainSelector, receiver, payFeesIn, to);

@@ -35,9 +35,7 @@ const AntDesignConfigProvider = ({ children }: Props) => {
 		>
 			{mounted && (
 				<div
-					className={clsx(
-						defaultTheme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'
-					)}
+					className={clsx('bg-white transition-colors duration-300 dark:bg-black')}
 				>
 					{children}
 				</div>

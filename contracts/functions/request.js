@@ -15,7 +15,7 @@ const stimulateRequest = async () => {
 		.readFileSync(path.resolve(__dirname, 'source-inline.js'))
 		.toString();
 
-	const args = ['80001', '5'];
+	const args = ['80001', '5', 'https://ipfs.infura.io/ipfs/QmdX77777'];
 	const gasLimit = 300000;
 
 	///////// START SIMULATION ////////////

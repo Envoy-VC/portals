@@ -1,14 +1,77 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import type {
+	AccsEVMParams,
+	UnifiedAccessControlConditions,
+} from '@lit-protocol/types';
 import { ethers } from 'ethers';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-	const body = req.body as { chainId: string; tokenId: string };
-	const chainId = parseInt(body.chainId);
+import { uploadToIpfs, downloadFromIpfs, decrypt, encrypt } from '~/helpers';
+
+export default async function handler(
+	req: NextApiRequest,
+	res: NextApiResponse
+) {
+	const body = req.body as { chainId: string; tokenId: string; uri: string };
+	const destinationChainId = parseInt(body.chainId);
 	const tokenId = parseInt(body.tokenId);
-	const abiCoder = ethers.utils.defaultAbiCoder;
-	const encodedBytes = abiCoder.encode(
-		['uint256', 'string'],
-		[tokenId, 'https://metadata.degods.com/g/755.json']
+	const uri = body.uri;
+	const contractAddress =
+		destinationChainId === 80001
+			? '0x5FbDB2315678afecb367f032d93F642f64180aa3'
+			: '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+
+	// obtain URI in JSON format
+	const jsonURI = await downloadFromIpfs(uri);
+	const {
+		content: { encryptedString, encryptedSymmetricKey, accessControlConditions },
+	} = jsonURI;
+	const chain = (accessControlConditions?.at(0) as AccsEVMParams)?.chain;
+	const chainId = chain === 'mumbai' ? 80001 : 43113;
+
+	// decrypt content
+	const content = await decrypt(
+		encryptedString,
+		encryptedSymmetricKey,
+		JSON.stringify(accessControlConditions),
+		String(chainId)
 	);
+
+	// Encrypt with new ACCs
+	const {
+		encryptedString: newEncryptedString,
+		encryptedSymmetricKey: newEncryptedSymmetricKey,
+		accessControlConditions: newAccessControlConditions,
+	} = await encrypt(
+		String(destinationChainId),
+		contractAddress,
+		String(tokenId),
+		content
+	);
+
+	const updatedURI = {
+		...jsonURI,
+		content: {
+			...jsonURI.content,
+			encryptedString: newEncryptedString,
+			encryptedSymmetricKey: newEncryptedSymmetricKey,
+			accessControlConditions: JSON.parse(
+				newAccessControlConditions
+			) as UnifiedAccessControlConditions,
+		},
+	};
+
+	// upload new URI to IPFS
+	const newURI = await uploadToIpfs(JSON.stringify(updatedURI));
+
+	const abiCoder = ethers.utils.defaultAbiCoder;
+	const encodedBytes = abiCoder.encode(['uint256', 'string'], [tokenId, newURI]);
+
 	res.status(200).json(encodedBytes);
 }
+
+/*
+
+Ņ伡᯺a槲뻣ܿ対}ʻq>\⍔샵le1墯0D⋢șfIՆLSƲkYE남1?i,˸h띏፺2$쪦򓬮
+wDₑ;줂څXㆻ✉4Sh&煹뾹챤ᴧ䑀 ъ&ꬨFM꿣ၞT냇釤쪬핍.#ꀟLURi䂢%k2zՅ
+
+*/

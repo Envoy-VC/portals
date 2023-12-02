@@ -32,7 +32,7 @@ contract Router is Withdraw, CCIPReceiver, CCIPFeesTypes, ILogAutomation {
     uint64 public subscriptionId;
     uint32 public gasLimit;
     string public source =
-        "const chainId = args[0];const tokenId = args[1];const url = 'https://portals-teal.vercel.app/api/update-acc';const req =Functions.makeHttpRequest({url: url,method: 'POST',headers: { 'Content-Type': 'application/json' },data: { chainId: chainId, tokenId: tokenId },});const response = await req;let hexString = response['data'];hexString = hexString.substring(2);const arrayBuffer = new Uint8Array(hexString.length / 2 - 1);for (var i = 4; i < hexString.length; i += 2) {var byteValue = parseInt(hexString.substr(i, 2), 16);arrayBuffer[i / 2] = byteValue;}return arrayBuffer;";
+        "const chainId = args[0];const tokenId = args[1];const uri = args[2];const url = 'https://portals-teal.vercel.app/api/update-acc';const req =Functions.makeHttpRequest({url: url,method: 'POST',headers: { 'Content-Type': 'application/json' },data: { chainId: chainId, tokenId: tokenId, uri: uri },});const response = await req;let hexString = response['data'];hexString = hexString.substring(2);const arrayBuffer = new Uint8Array(hexString.length / 2 - 1);for (var i = 4; i < hexString.length; i += 2) {var byteValue = parseInt(hexString.substr(i, 2), 16);arrayBuffer[i / 2] = byteValue;}return arrayBuffer;";
 
     // Errors
     error UnAuthorizedMinter();
@@ -99,9 +99,9 @@ contract Router is Withdraw, CCIPReceiver, CCIPFeesTypes, ILogAutomation {
         pure
         returns (bool upkeepNeeded, bytes memory performData)
     {
-        (uint256 chainId, uint256 tokenId) = abi.decode(log.data, (uint256, uint256));
+        (uint256 chainId, uint256 tokenId, string memory uri) = abi.decode(log.data, (uint256, uint256, string));
 
-        performData = abi.encode(chainId, tokenId);
+        performData = abi.encode(chainId, tokenId, uri);
         return (true, performData);
     }
 
@@ -109,13 +109,14 @@ contract Router is Withdraw, CCIPReceiver, CCIPFeesTypes, ILogAutomation {
     /// @param performData The data passed from checkLog
 
     function performUpkeep(bytes calldata performData) external override {
-        (uint256 chainId, uint256 tokenId) = abi.decode(performData, (uint256, uint256));
+        (uint256 chainId, uint256 tokenId, string memory uri) = abi.decode(performData, (uint256, uint256, string));
         bytes memory encryptedSecretsUrls = "";
         uint8 donHostedSecretsSlotID = 0;
         uint64 donHostedSecretsVersion = 0;
-        string[] memory args = new string[](2);
+        string[] memory args = new string[](3);
         args[0] = chainId.toString();
         args[1] = tokenId.toString();
+        args[2] = uri;
         bytes[] memory bytesArgs = new bytes[](0);
 
         nft.sendRequest(
