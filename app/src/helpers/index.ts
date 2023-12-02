@@ -1,6 +1,8 @@
-import { AccessControlConditions } from '@lit-protocol/types';
+import type { AccessControlConditions } from '@lit-protocol/types';
 import type { Attribute, NFTMetadata } from '~/types';
 import { chainInfo } from '~/utils';
+
+const BASE_PATH = 'https://portals-teal.vercel.app';
 
 export const encrypt = async (
 	chain: string,
@@ -8,7 +10,7 @@ export const encrypt = async (
 	tokenId: string,
 	content: string
 ) => {
-	const res = await fetch('/api/encrypt-content', {
+	const res = await fetch(`${BASE_PATH}/api/encrypt-content`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -34,7 +36,7 @@ export const decrypt = async (
 	accessControlConditions: string,
 	chainId: string
 ) => {
-	const res = await fetch('/api/decrypt-content', {
+	const res = await fetch(`${BASE_PATH}/api/decrypt-content`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -53,7 +55,7 @@ export const decrypt = async (
 };
 
 export const uploadToIpfs = async (content: string) => {
-	const res = await fetch('/api/upload-to-ipfs', {
+	const res = await fetch(`${BASE_PATH}/api/upload-to-ipfs`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -71,7 +73,7 @@ export const uploadToIpfs = async (content: string) => {
 // ipfs://QmXFoSGnG7a9CwkvY6L2YfFe1c8JsECfe9EmoyUMBjdXfk
 
 export const downloadFromIpfs = async (hash: string) => {
-	const res = await fetch('/api/download-from-ipfs', {
+	const res = await fetch(`${BASE_PATH}/api/download-from-ipfs`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -137,7 +139,7 @@ interface MintNFTProps {
 }
 
 export const mintNFT = async ({ chainId, address, uri }: MintNFTProps) => {
-	const res = await fetch('/api/mint-nft', {
+	const res = await fetch(`${BASE_PATH}/api/mint-nft`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -156,7 +158,7 @@ export const mintNFT = async ({ chainId, address, uri }: MintNFTProps) => {
 };
 
 export const getNextTokenId = async ({ chainId }: { chainId: string }) => {
-	const res = await fetch('/api/get-token-id', {
+	const res = await fetch(`${BASE_PATH}/api/get-token-id`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
