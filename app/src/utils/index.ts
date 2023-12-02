@@ -11,8 +11,8 @@ import {
 
 export const chainInfo = {
 	mumbai: {
-		routerAddress: '',
-		portalsAddress: '',
+		routerAddress: '0x9d08CC363Cb972Ac83a2A142F6Eee83207C8927F',
+		portalsAddress: '0x4EdE1a7A2b84F046d90503014e277Bd2EB4332Ba',
 		chainId: 80001,
 	},
 	fuji: {

@@ -6,7 +6,7 @@ import { useCreateNFTStore } from '~/stores';
 import { deployedChains } from '~/utils';
 
 const ChainSelect = () => {
-	const { setChainId } = useCreateNFTStore();
+	const { chainId, setChainId } = useCreateNFTStore();
 
 	const handleChange = (value: string) => {
 		setChainId(value);
@@ -34,6 +34,7 @@ const ChainSelect = () => {
 			<div className='text-2xl font-medium'>Select Chain</div>
 			<Select
 				placeholder='Select Chain to Mint on'
+				value={chainId}
 				defaultValue='43113'
 				onChange={handleChange}
 				optionLabelProp='label'

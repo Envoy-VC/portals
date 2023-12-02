@@ -1,4 +1,6 @@
-import type { NFTMetadata } from '~/types';
+import { AccessControlConditions } from '@lit-protocol/types';
+import type { Attribute, NFTMetadata } from '~/types';
+import { chainInfo } from '~/utils';
 
 export const encrypt = async (
 	chain: string,
@@ -83,4 +85,89 @@ export const downloadFromIpfs = async (hash: string) => {
 	};
 
 	return json.data;
+};
+
+interface BuildMetadataProps {
+	name: string;
+	description: string;
+	image: string;
+	attributes: Attribute[];
+	contentHash: string;
+	chainId: string;
+	tokenId: string;
+}
+export const buildMetadata = async ({
+	name,
+	description,
+	image,
+	attributes,
+	contentHash,
+	chainId,
+	tokenId,
+}: BuildMetadataProps) => {
+	const chain = parseInt(chainId) === 80001 ? 'mumbai' : 'fuji';
+	const portalsAddress = chainInfo[chain].portalsAddress;
+	const { encryptedString, encryptedSymmetricKey, accessControlConditions } =
+		await encrypt(chainId, portalsAddress, tokenId, contentHash);
+
+	const metadata: NFTMetadata = {
+		name,
+		description,
+		image,
+		attributes,
+		content: {
+			encryptedString,
+			encryptedSymmetricKey,
+			accessControlConditions: JSON.parse(
+				accessControlConditions
+			) as AccessControlConditions,
+		},
+	};
+
+	// Upload Metadata to IPFS
+	const uri = await uploadToIpfs(JSON.stringify(metadata));
+
+	return uri;
+};
+
+interface MintNFTProps {
+	chainId: string;
+	address: string;
+	uri: string;
+}
+
+export const mintNFT = async ({ chainId, address, uri }: MintNFTProps) => {
+	const res = await fetch('/api/mint-nft', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			chainId,
+			address,
+			uri,
+		}),
+	});
+	const json = (await res.json()) as {
+		txHash: string;
+	};
+
+	return json.txHash;
+};
+
+export const getNextTokenId = async ({ chainId }: { chainId: string }) => {
+	const res = await fetch('/api/get-token-id', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			chainId,
+		}),
+	});
+	const json = (await res.json()) as {
+		nextTokenId: string;
+	};
+
+	return json.nextTokenId;
 };
