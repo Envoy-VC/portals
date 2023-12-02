@@ -2,6 +2,8 @@ import type { ReactElement } from 'react';
 import { Layout } from '~/components';
 import type { NextPageWithLayout } from '../_app';
 
+import { useCreateNFTStore } from '~/stores';
+
 import {
 	UploadContent,
 	ChainSelect,
@@ -13,6 +15,7 @@ import {
 import { Button } from 'antd';
 
 const Create: NextPageWithLayout = () => {
+	const state = useCreateNFTStore();
 	return (
 		<div className='px-4 py-24'>
 			<div className='mx-auto flex max-w-screen-2xl flex-col items-center justify-between sm:flex-row'>
@@ -23,6 +26,9 @@ const Create: NextPageWithLayout = () => {
 					type='primary'
 					size='large'
 					className='hidden bg-black !text-white hover:!bg-black sm:flex'
+					onClick={() => {
+						console.log(state);
+					}}
 				>
 					Create
 				</Button>
@@ -43,6 +49,9 @@ const Create: NextPageWithLayout = () => {
 					type='primary'
 					size='large'
 					className='flex bg-black !text-white hover:!bg-black sm:hidden'
+					onClick={() => {
+						console.log(state);
+					}}
 				>
 					Create
 				</Button>

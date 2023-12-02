@@ -10,6 +10,10 @@ interface State {
 }
 
 interface Actions {
+	setName: (name: string) => void;
+	setDescription: (description: string) => void;
+	setContent: (content: File | null) => void;
+	setChainId: (chainId: string) => void;
 	addAttribute: (attribute: Attribute) => void;
 	removeAttribute: (attribute: Attribute) => void;
 	reset: () => void;
@@ -19,8 +23,12 @@ export const useCreateNFTStore = create<State & Actions>((set) => ({
 	name: '',
 	description: '',
 	content: null,
-	chainId: '80001',
+	chainId: '43113',
 	attributes: [],
+	setName: (name: string) => set({ name }),
+	setDescription: (description: string) => set({ description }),
+	setContent: (content: File | null) => set({ content }),
+	setChainId: (chainId: string) => set({ chainId }),
 	addAttribute: (attribute: Attribute) => {
 		set((state) => ({
 			...state,
@@ -36,9 +44,9 @@ export const useCreateNFTStore = create<State & Actions>((set) => ({
 		}));
 	},
 	reset: () => {
-		set((state) => ({
-			...state,
+		set(() => ({
 			name: '',
+			chainId: '43113',
 			description: '',
 			content: null,
 			attributes: [],

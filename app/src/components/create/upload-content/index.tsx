@@ -1,6 +1,7 @@
 import React from 'react';
 import type { UploadProps, UploadFile } from 'antd';
 import { Upload } from 'antd';
+import { useCreateNFTStore } from '~/stores';
 
 import { PiUploadSimple } from 'react-icons/pi';
 import clsx from 'clsx';
@@ -8,6 +9,7 @@ import clsx from 'clsx';
 const { Dragger } = Upload;
 
 const UploadContent = () => {
+	const { setContent } = useCreateNFTStore();
 	const [fileList, setFileList] = React.useState<UploadFile[]>([]);
 
 	const props: UploadProps = {
@@ -17,10 +19,12 @@ const UploadContent = () => {
 		listType: 'picture',
 		beforeUpload: (file) => {
 			setFileList([file]);
+			setContent(file);
 			return false;
 		},
 		onRemove: () => {
 			setFileList([]);
+			setContent(null);
 		},
 		onDrop(e) {
 			console.log('Dropped files', e.dataTransfer.files);
