@@ -3,6 +3,7 @@ import type {
 	AccsEVMParams,
 	UnifiedAccessControlConditions,
 } from '@lit-protocol/types';
+import { chainInfo } from '~/utils';
 import { ethers } from 'ethers';
 
 import { uploadToIpfs, downloadFromIpfs, decrypt, encrypt } from '~/helpers';
@@ -13,12 +14,10 @@ export default async function handler(
 ) {
 	const body = req.body as { chainId: string; tokenId: string; uri: string };
 	const destinationChainId = parseInt(body.chainId);
+	const destinationChain = destinationChainId === 80001 ? 'mumbai' : 'fuji';
 	const tokenId = parseInt(body.tokenId);
 	const uri = body.uri;
-	const contractAddress =
-		destinationChainId === 80001
-			? '0x5FbDB2315678afecb367f032d93F642f64180aa3'
-			: '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+	const contractAddress = chainInfo[destinationChain].portalsAddress;
 
 	// obtain URI in JSON format
 	const jsonURI = await downloadFromIpfs(uri);
@@ -68,10 +67,3 @@ export default async function handler(
 
 	res.status(200).json(encodedBytes);
 }
-
-/*
-
-Ņ伡᯺a槲뻣ܿ対}ʻq>\⍔샵le1墯0D⋢șfIՆLSƲkYE남1?i,˸h띏፺2$쪦򓬮
-wDₑ;줂څXㆻ✉4Sh&煹뾹챤ᴧ䑀 ъ&ꬨFM꿣ၞT냇釤쪬핍.#ꀟLURi䂢%k2zՅ
-
-*/

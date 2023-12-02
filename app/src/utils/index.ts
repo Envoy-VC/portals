@@ -9,6 +9,19 @@ import {
 	AvalancheFuji,
 } from '@thirdweb-dev/chains';
 
+export const chainInfo = {
+	mumbai: {
+		routerAddress: '',
+		portalsAddress: '',
+		chainId: 80001,
+	},
+	fuji: {
+		routerAddress: '',
+		portalsAddress: '',
+		chainId: 80001,
+	},
+};
+
 export const supportedChains = [
 	{
 		name: 'Ethereum',
