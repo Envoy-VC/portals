@@ -1,8 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
  */
 await import('./src/env.mjs');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+import webpack from 'webpack';
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -28,6 +33,16 @@ const config = {
 	i18n: {
 		locales: ['en'],
 		defaultLocale: 'en',
+	},
+	webpack: (config, options) => {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+		config.plugins.push(
+			new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
+				resource.request = resource.request.replace(/^node:/, '');
+			})
+		);
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+		return config;
 	},
 };
 

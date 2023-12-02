@@ -28,6 +28,6 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs"
-, "color-pallette.js", "src/pages/api/get-token-id.ts"  ],
+, "color-pallette.js", "src/pages/api/get-token-id.ts", "next.config.mjs"  ],
   "exclude": ["node_modules"]
 }
