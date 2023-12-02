@@ -30,45 +30,76 @@ interface NFTTraitsProps {
 }
 
 const NFTTraits = ({ attributes }: NFTTraitsProps) => {
-	const propertyAttributes = attributes.map(
-		(attribute) =>
-			attribute.display_type === undefined && typeof attribute.value === 'string'
-	);
+	const propertyAttributes = attributes.map((attribute) => {
+		if (
+			attribute.display_type === undefined &&
+			typeof attribute.value === 'string'
+		)
+			return attribute;
+	});
 
-	const levelAttributes = attributes.map(
-		(attribute) =>
-			attribute.display_type === undefined && typeof attribute.value === 'number'
-	);
+	const levelAttributes = attributes.map((attribute) => {
+		if (
+			attribute.display_type === undefined &&
+			typeof attribute.value === 'number'
+		)
+			return attribute;
+	});
 
-	const boostAttributes = attributes.map(
-		(attribute) => attribute.display_type === 'boost_number'
-	);
+	const boostAttributes = attributes.map((attribute) => {
+		if (attribute.display_type === 'boost_percentage') return attribute;
+	});
 
-	const statsAttributes = attributes.map(
-		(attribute) => attribute.display_type === 'number'
-	);
+	const statsAttributes = attributes.map((attribute) => {
+		if (attribute.display_type === 'number') return attribute;
+	});
 	return (
 		<div className='flex flex-col gap-4'>
 			{propertyAttributes.length > 0 && (
 				<Holder Icon={TbLayoutList} title='Properties'>
-					aaa
+					{propertyAttributes.map((attribute, index) => {
+						if (attribute) {
+							return <AttributePill key={index} attribute={attribute} />;
+						}
+					})}
 				</Holder>
 			)}
 			{levelAttributes.length > 0 && (
 				<Holder Icon={TbStarFilled} title='Levels'>
-					aaa
+					{levelAttributes.map((attribute, index) => {
+						if (attribute) {
+							return <AttributePill key={index} attribute={attribute} />;
+						}
+					})}
 				</Holder>
 			)}
 			{boostAttributes.length > 0 && (
 				<Holder Icon={PiLightningFill} title='Boost'>
-					aaa
+					{boostAttributes.map((attribute, index) => {
+						if (attribute) {
+							return <AttributePill key={index} attribute={attribute} />;
+						}
+					})}
 				</Holder>
 			)}
 			{statsAttributes.length > 0 && (
 				<Holder Icon={TbCellSignal5} title='Stats'>
-					aaa
+					{statsAttributes.map((attribute, index) => {
+						if (attribute) {
+							return <AttributePill key={index} attribute={attribute} />;
+						}
+					})}
 				</Holder>
 			)}
+		</div>
+	);
+};
+
+const AttributePill = ({ attribute }: { attribute: Attribute }) => {
+	return (
+		<div className='flex w-fit flex-col justify-center rounded-lg bg-gray-100 px-6 py-2 text-center dark:bg-[#131313]'>
+			<span className='text-xl'>{attribute.trait_type}</span>
+			<span className='text-[1rem] font-medium'>{attribute.value}</span>
 		</div>
 	);
 };
