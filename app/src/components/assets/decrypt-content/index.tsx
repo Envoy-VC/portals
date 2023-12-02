@@ -17,10 +17,10 @@ const DecryptContent = ({ content }: Props) => {
 		<div className='rounded-md border-[1px] border-[#D1D1D1] p-4'>
 			<div className='flex flex-col gap-4'>
 				<span className='text-2xl font-medium'>Decrypt Content</span>
-				<span>
+				<p className='break-all'>
 					<span className='font-medium'>Encrypted Content: </span>
 					{encryptedString}
-				</span>
+				</p>
 				<Button className='w-fit' size='large'>
 					Decrypt
 				</Button>

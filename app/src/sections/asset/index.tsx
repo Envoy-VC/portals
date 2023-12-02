@@ -39,10 +39,15 @@ const AssetPage = ({ chain, tokenId }: Props) => {
 				<div className='flex flex-col gap-10 px-2 lg:flex-row'>
 					<div className='flex w-full basis-1/3 flex-col gap-8'>
 						<NFTImage chain={chain} tokenId={tokenId} image={metadata.image} />
-						<NFTTraits />
+						<NFTTraits attributes={metadata.attributes} />
 					</div>
 					<div className='flex w-full basis-2/3 flex-col gap-6'>
-						<NFTDetails title={metadata.name} description={metadata.description} />
+						<NFTDetails
+							title={metadata.name}
+							description={metadata.description}
+							chainId={chain === 'mumbai' ? '80001' : '43113'}
+							tokenId={tokenId}
+						/>
 						<DecryptContent content={metadata.content} />
 						<NFTActions />
 					</div>

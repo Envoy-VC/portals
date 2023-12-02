@@ -1,12 +1,11 @@
 import React from 'react';
 
-import {
-	TbLayoutList,
-	TbStarFilled,
-	TbCellSignal5,
-	TbCalendar,
-} from 'react-icons/tb';
+import { TbLayoutList, TbStarFilled, TbCellSignal5 } from 'react-icons/tb';
+
+import { PiLightningFill } from 'react-icons/pi';
+
 import type { IconType } from 'react-icons';
+import { Attribute } from '~/types';
 
 interface HolderProps {
 	Icon: IconType;
@@ -26,21 +25,50 @@ export const Holder = ({ title, Icon, children }: HolderProps) => {
 	);
 };
 
-const NFTTraits = () => {
+interface NFTTraitsProps {
+	attributes: Attribute[];
+}
+
+const NFTTraits = ({ attributes }: NFTTraitsProps) => {
+	const propertyAttributes = attributes.map(
+		(attribute) =>
+			attribute.display_type === undefined && typeof attribute.value === 'string'
+	);
+
+	const levelAttributes = attributes.map(
+		(attribute) =>
+			attribute.display_type === undefined && typeof attribute.value === 'number'
+	);
+
+	const boostAttributes = attributes.map(
+		(attribute) => attribute.display_type === 'boost_number'
+	);
+
+	const statsAttributes = attributes.map(
+		(attribute) => attribute.display_type === 'number'
+	);
 	return (
 		<div className='flex flex-col gap-4'>
-			<Holder Icon={TbLayoutList} title='Properties'>
-				aaa
-			</Holder>
-			<Holder Icon={TbStarFilled} title='Levels'>
-				aaa
-			</Holder>
-			<Holder Icon={TbCellSignal5} title='Stats'>
-				aaa
-			</Holder>
-			<Holder Icon={TbCalendar} title='Dates'>
-				aaa
-			</Holder>
+			{propertyAttributes.length > 0 && (
+				<Holder Icon={TbLayoutList} title='Properties'>
+					aaa
+				</Holder>
+			)}
+			{levelAttributes.length > 0 && (
+				<Holder Icon={TbStarFilled} title='Levels'>
+					aaa
+				</Holder>
+			)}
+			{boostAttributes.length > 0 && (
+				<Holder Icon={PiLightningFill} title='Boost'>
+					aaa
+				</Holder>
+			)}
+			{statsAttributes.length > 0 && (
+				<Holder Icon={TbCellSignal5} title='Stats'>
+					aaa
+				</Holder>
+			)}
 		</div>
 	);
 };
