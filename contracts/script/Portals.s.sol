@@ -33,7 +33,6 @@ contract PortalsScriptMumbai is Script {
         // Give Minter Permission and set Subscription Id
         router.setMinter(deployerPublicKey, true);
         router.setSubscriptionId(979);
-        router.mint(deployerPublicKey, "https://ipfs.io/ipfs/QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/8585");
 
         vm.stopBroadcast();
     }
@@ -66,9 +65,6 @@ contract PortalsScriptFuji is Script {
         // Give Minter Permission and set Subscription Id
         router.setMinter(deployerPublicKey, true);
         router.setSubscriptionId(1516);
-
-        // Mint NFT
-        router.mint(deployerPublicKey, "https://ipfs.io/ipfs/QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/8585");
 
         vm.stopBroadcast();
     }

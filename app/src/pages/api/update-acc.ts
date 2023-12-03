@@ -64,7 +64,10 @@ export default async function handler(
 	const newURI = await uploadToIpfs(JSON.stringify(updatedURI));
 
 	const abiCoder = ethers.utils.defaultAbiCoder;
-	const encodedBytes = abiCoder.encode(['uint256', 'string'], [tokenId, newURI]);
+	const encodedBytes = abiCoder.encode(
+		['uint256', 'uint256', 'string'],
+		[destinationChainId, tokenId, newURI]
+	);
 
 	res.status(200).json(encodedBytes);
 }

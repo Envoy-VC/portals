@@ -94,7 +94,8 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
             revert NotOwnerOfToken(tokenId, msg.sender);
         }
         string memory uri = tokenURI(tokenId);
-        burn(tokenId);
+        safeTransferFrom(msg.sender, address(this), tokenId);
+        _setTokenURI(tokenId, "");
         router.crossChainTransfer(destinationChainSelector, receiver, payFeesIn, tokenId, to, uri);
         emit CrossChainTransferRequested(tokenId, destinationChainSelector, receiver, payFeesIn, to);
     }

@@ -2,8 +2,6 @@ import type { ReactElement } from 'react';
 import { Layout } from '~/components';
 import type { NextPageWithLayout } from './_app';
 
-import { uploadToIpfs, downloadFromIpfs } from '~/helpers';
-
 // Sections
 import { Hero } from '~/sections';
 
@@ -17,9 +15,9 @@ const Home: NextPageWithLayout = () => {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				chainId: '43113',
-				tokenId: '1',
-				uri: 'ipfs://QmZArG6TsAd5xfXsDpAQ9ASDcip1As61X6WTdy1ZXCiZeK',
+				chainId: '80001',
+				tokenId: '0',
+				uri: 'ipfs://QmfDvefdGpPdxUrFxCc2oLn4eGLLwBWC6CnwVVuC8MqKi2',
 			}),
 		});
 
@@ -32,6 +30,7 @@ const Home: NextPageWithLayout = () => {
 			<Button
 				// eslint-disable-next-line @typescript-eslint/no-misused-promises
 				onClick={update}
+				className='hidden'
 			>
 				Click
 			</Button>
