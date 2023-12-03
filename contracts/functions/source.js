@@ -2,7 +2,7 @@ const chainId = args[0];
 const tokenId = args[1];
 const uri = args[2];
 
-const url = 'https://portals-teal.vercel.app/api/update-acc';
+const url = 'http://localhost:3000/api/update-acc';
 
 const req = Functions.makeHttpRequest({
 	url: url,
@@ -17,6 +17,7 @@ const req = Functions.makeHttpRequest({
 	},
 });
 const response = await req;
+console.log(response);
 
 let hexString = response['data'];
 hexString = hexString.substring(2);

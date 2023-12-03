@@ -12,10 +12,14 @@ require('@chainlink/env-enc').config();
 
 const stimulateRequest = async () => {
 	const source = fs
-		.readFileSync(path.resolve(__dirname, 'source-inline.js'))
+		.readFileSync(path.resolve(__dirname, 'source.js'))
 		.toString();
 
-	const args = ['80001', '5', 'https://ipfs.infura.io/ipfs/QmdX77777'];
+	const args = [
+		'80001',
+		'0',
+		'ipfs://QmfDvefdGpPdxUrFxCc2oLn4eGLLwBWC6CnwVVuC8MqKi2',
+	];
 	const gasLimit = 300000;
 
 	///////// START SIMULATION ////////////
