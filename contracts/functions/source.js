@@ -2,7 +2,7 @@ const chainId = args[0];
 const tokenId = args[1];
 const uri = args[2];
 
-const url = 'http://localhost:3000/api/update-acc';
+const url = 'https://portals-teal.vercel.app/api/update-uri';
 
 const req = Functions.makeHttpRequest({
 	url: url,
@@ -15,6 +15,7 @@ const req = Functions.makeHttpRequest({
 		tokenId: tokenId,
 		uri: uri,
 	},
+	timeout: '5000',
 });
 const response = await req;
 console.log(response);

@@ -18,7 +18,7 @@ const stimulateRequest = async () => {
 	const args = [
 		'80001',
 		'0',
-		'ipfs://QmfDvefdGpPdxUrFxCc2oLn4eGLLwBWC6CnwVVuC8MqKi2',
+		'ipfs://QmQgwdtTzDJnbRbGyVDTEM1UtGhKaYLGDVE9N5eGrJbtca',
 	];
 	const gasLimit = 300000;
 

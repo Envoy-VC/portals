@@ -17,7 +17,7 @@ const Home: NextPageWithLayout = () => {
 			body: JSON.stringify({
 				chainId: '80001',
 				tokenId: '0',
-				uri: 'ipfs://QmfDvefdGpPdxUrFxCc2oLn4eGLLwBWC6CnwVVuC8MqKi2',
+				uri: 'ipfs://QmQgwdtTzDJnbRbGyVDTEM1UtGhKaYLGDVE9N5eGrJbtca',
 			}),
 		});
 
@@ -30,7 +30,7 @@ const Home: NextPageWithLayout = () => {
 			<Button
 				// eslint-disable-next-line @typescript-eslint/no-misused-promises
 				onClick={update}
-				className='hidden'
+				className=''
 			>
 				Click
 			</Button>
