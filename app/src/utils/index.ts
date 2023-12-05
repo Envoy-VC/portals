@@ -11,14 +11,14 @@ import {
 
 export const chainInfo = {
 	mumbai: {
-		routerAddress: '0xAa4806759408Ee70694ffa55CB4122e096695CEc',
-		portalsAddress: '0xee5658a681EfA52f7c6a0d7af79a8b95FbF5ABd7',
+		routerAddress: '0x67bd320CF5B75e04694F4c84Aa8898c6B9DeB30a',
+		portalsAddress: '0xF66fdE3208b0855EE97035bF28112d383CdAD86e',
 		chainId: 80001,
 		chainSelector: '12532609583862916517',
 	},
 	fuji: {
-		routerAddress: '0x7A0ac4678a267BE852d99e6C57841DDE9c1CCeC0',
-		portalsAddress: '0xAa4806759408Ee70694ffa55CB4122e096695CEc',
+		routerAddress: '0x624A9104f594b943254620d19371212C7Aa2a3a8',
+		portalsAddress: '0x15A552010D8bba68034EC4E8Fcc2CfDaFc0DE8E9',
 		chainId: 43113,
 		chainSelector: '14767482510784806043',
 	},

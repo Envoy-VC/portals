@@ -1,7 +1,6 @@
 const chainId = args[0];
 const tokenId = args[1];
 const uri = args[2];
-
 const url = 'https://portals-teal.vercel.app/api/update-uri';
 
 const req = Functions.makeHttpRequest({
@@ -15,19 +14,29 @@ const req = Functions.makeHttpRequest({
 		tokenId: tokenId,
 		uri: uri,
 	},
-	timeout: '5000',
+	timeout: '10000',
 });
+const responseTest = await req;
 const response = await req;
-console.log(response);
 
-let hexString = response['data'];
-hexString = hexString.substring(2);
+let hexString = (responseTest ?? response)['data'];
 
-const arrayBuffer = new Uint8Array(hexString.length / 2 - 1);
+hexString = hexString.replace(/^0x/, '');
 
-for (var i = 4; i < hexString.length; i += 2) {
-	var byteValue = parseInt(hexString.substr(i, 2), 16);
-	arrayBuffer[i / 2] = byteValue;
+function getPairs(hexString) {
+	const pairs = [];
+	for (let i = 0; i < hexString.length; i += 2) {
+		pairs.push(hexString.substr(i, 2));
+	}
+	return pairs;
 }
 
-return arrayBuffer;
+const pairs = getPairs(hexString);
+
+const integers = pairs.map(function (s) {
+	return parseInt(s, 16);
+});
+
+const array = new Uint8Array(integers);
+
+return array.buffer;

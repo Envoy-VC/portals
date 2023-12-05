@@ -94,8 +94,8 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
             revert NotOwnerOfToken(tokenId, msg.sender);
         }
         string memory uri = tokenURI(tokenId);
-        _setTokenURI(tokenId, "");
         safeTransferFrom(msg.sender, owner(), tokenId);
+        _setTokenURI(tokenId, "");
         router.crossChainTransfer(destinationChainSelector, receiver, payFeesIn, tokenId, to, uri);
         emit CrossChainTransferRequested(tokenId, destinationChainSelector, receiver, payFeesIn, to);
     }
@@ -172,7 +172,7 @@ contract Portals is ERC721, ERC721URIStorage, ERC721Burnable, CCIPFeesTypes, Fun
             revert UnexpectedRequestID(requestId);
         }
         s_lastResponse = response;
-        (uint256 tokenId, string memory newURI) = abi.decode(response, (uint256, string));
+        (, uint256 tokenId, string memory newURI) = abi.decode(response, (uint256, uint256, string));
         _setTokenURI(tokenId, newURI);
         s_lastError = err;
         emit Response(requestId, s_lastResponse, s_lastError);

@@ -1,18 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const {
-	SubscriptionManager,
-	simulateScript,
-	ResponseListener,
-	ReturnType,
-	decodeResult,
-	FulfillmentCode,
-} = require('@chainlink/functions-toolkit');
+const { simulateScript } = require('@chainlink/functions-toolkit');
 require('@chainlink/env-enc').config();
 
 const stimulateRequest = async () => {
 	const source = fs
-		.readFileSync(path.resolve(__dirname, 'source.js'))
+		.readFileSync(path.resolve(__dirname, 'source-inline.js'))
 		.toString();
 
 	const args = [
