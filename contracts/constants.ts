@@ -23,18 +23,18 @@ Deployed Addresses
 
 Fuji
 
-Router - 0xfa36ffd97f50c8dE61242c7D42EcCaCfab725d7F
-Portals - 0x5F693b112d26872c1533921CcC735fdf37815847
+Router - 0x7A0ac4678a267BE852d99e6C57841DDE9c1CCeC0
+Portals - 0xAa4806759408Ee70694ffa55CB4122e096695CEc
 Functions Subscription - https://functions.chain.link/fuji/1516
-Automation Subscription - https://automation.chain.link/fuji/89816310624379382981794405856691243308543112757701006194161798023082391769830
+Automation Subscription - https://automation.chain.link/fuji/48580927475978770151216788508557731071541536862417570818292217495034453806088
 
 
 Mumbai
 
-Router - 0x71296ECE6d41d18afa1dfE0B98D1AF768df3553F
-Portals - 0xfa36ffd97f50c8dE61242c7D42EcCaCfab725d7F
+Router - 0xAa4806759408Ee70694ffa55CB4122e096695CEc
+Portals - 0xee5658a681EfA52f7c6a0d7af79a8b95FbF5ABd7
 Functions Subscription - https://functions.chain.link/mumbai/979
-Automation Subscription - https://automation.chain.link/mumbai/110943061178666321133766187458980813183031983335045509030041411979235889656351
+Automation Subscription - https://automation.chain.link/mumbai/104875060133259684375993920867718878699574224543220066504378058541394183844900
 
 
 In functions subscription -  Consumer will be Portals Contracts
