@@ -2,7 +2,7 @@ import type { AccessControlConditions } from '@lit-protocol/types';
 import type { Attribute, NFTMetadata } from '~/types';
 import { chainInfo } from '~/utils';
 
-const BASE_PATH = 'http://localhost:3000';
+const BASE_PATH = 'https://portals-teal.vercel.app';
 
 export const encrypt = async (
 	chain: string,
