@@ -1,8 +1,9 @@
 import type { AccessControlConditions } from '@lit-protocol/types';
 import type { Attribute, NFTMetadata } from '~/types';
 import { chainInfo } from '~/utils';
+import { env } from '~/env.mjs';
 
-const BASE_PATH = 'https://portals-teal.vercel.app';
+const BASE_PATH = env.NEXT_PUBLIC_BASE_URL;
 
 export const encrypt = async (
 	chain: string,
