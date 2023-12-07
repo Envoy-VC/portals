@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Avatar, Image } from 'antd';
 import { Avalanche, Polygon } from '@thirdweb-dev/chains';
+import { chainInfo } from '~/utils';
 
 import { sanitizeImage } from '~/utils';
 
@@ -20,13 +21,13 @@ const NFTImage = ({ chain, tokenId, image }: NFTImageProps) => {
 				return {
 					name: 'Avalanche Fuji',
 					logo: 'https://ipfs.io/ipfs/' + Avalanche.icon.url.slice(7),
-					opensea: `https://testnets.opensea.io/assets/avalanche-fuji/0x8f966bc6ad2d241a01c1f7634c47c7419ce96830/${tokenId}`,
+					opensea: `https://testnets.opensea.io/assets/avalanche-fuji/${chainInfo.fuji.portalsAddress}/${tokenId}`,
 				};
 			case 'mumbai':
 				return {
 					name: 'Polygon Mumbai',
 					logo: 'https://ipfs.io/ipfs/' + Polygon.icon.url.slice(7),
-					opensea: `https://testnets.opensea.io/assets/mumbai/0x8f966bc6ad2d241a01c1f7634c47c7419ce96830/${tokenId}`,
+					opensea: `https://testnets.opensea.io/assets/mumbai/${chainInfo.mumbai.portalsAddress}/${tokenId}`,
 				};
 			default:
 				return {

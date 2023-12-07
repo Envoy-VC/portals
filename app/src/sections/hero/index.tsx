@@ -16,7 +16,7 @@ const Hero = () => {
 				<h1 className='text-center text-5xl font-semibold md:text-8xl'>
 					Discover the power of cross-chain content NFTs
 				</h1>
-				<h2 className='mx-auto text-center text-sm text-gray-400 md:text-xl'>
+				<h2 className='mx-auto text-center text-sm text-gray-500 md:text-xl'>
 					The future of NFTs is cross-chain, content-driven, and owner-controlled.
 				</h2>
 			</div>
@@ -25,12 +25,11 @@ const Hero = () => {
 					type='primary'
 					size='large'
 					shape='round'
-					className='group !flex !flex-row !items-center !gap-2 !bg-primary !text-black transition-all duration-300 ease-out hover:scale-105 hover:!bg-primary hover:!text-black'
+					className='group !flex !flex-row !items-center !gap-2 !bg-primary !text-black transition-all duration-300 ease-out hover:scale-105 hover:!bg-primary hover:!text-black !px-8 !py-5 !text-xl font-semibold'
 					onClick={() => {
 						void router.push('/create');
 					}}
 				>
-					<GiPortal className='text-xl transition-all duration-200 ease-in group-hover:scale-110' />
 					Create
 				</Button>
 			</div>

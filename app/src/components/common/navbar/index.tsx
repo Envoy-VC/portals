@@ -69,7 +69,7 @@ const NavbarItems: NavbarItem[] = [
 	},
 	{
 		name: 'Discover',
-		href: '/discover',
+		href: '/',
 	},
 	{
 		name: 'Create',

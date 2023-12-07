@@ -7,7 +7,7 @@ import { useStorage, useAddress } from '@thirdweb-dev/react';
 
 import toast from 'react-hot-toast';
 import html2canvas from 'html2canvas';
-import { buildMetadata, mintNFT, getNextTokenId } from '~/helpers';
+import { buildMetadata, mintNFT, getNextTokenId, testUpdate } from '~/helpers';
 
 import { useCreateNFTStore } from '~/stores';
 
@@ -20,6 +20,8 @@ import {
 } from '~/components/create';
 
 import { Button } from 'antd';
+
+import { CgSpinner } from 'react-icons/cg';
 
 const Create: NextPageWithLayout = () => {
 	const address = useAddress();
@@ -54,7 +56,10 @@ const Create: NextPageWithLayout = () => {
 	};
 
 	const onCreate = async () => {
-		if (!address) return;
+		if (!address) {
+			toast.error('Connect your Wallet to create a NFT');
+			return;
+		}
 		if (name === '' || description === '' || content === null) {
 			toast.error('Please fill in all fields');
 			return;
@@ -98,8 +103,10 @@ const Create: NextPageWithLayout = () => {
 			});
 			if (!txHash) return;
 			console.log('TX Hash', txHash);
+			const testRes = await testUpdate();
+			console.log('Update URI Response: ', testRes);
 
-			toast.success('NFT Minted');
+			toast.success(`NFT with Token Id ${nextTokenId} Minted Successfully`);
 			reset();
 		} catch (error) {
 			console.log(error);
@@ -118,12 +125,16 @@ const Create: NextPageWithLayout = () => {
 				<Button
 					type='primary'
 					size='large'
-					className='hidden bg-black !text-white hover:!bg-black sm:flex'
+					className='hidden items-center justify-center gap-2 border-gray-400 bg-black !text-white hover:!bg-black disabled:!text-gray-300 dark:border-2 sm:flex'
 					// eslint-disable-next-line @typescript-eslint/no-misused-promises
 					onClick={onCreate}
 					disabled={loading}
 				>
-					Create
+					{loading ? (
+						<CgSpinner className='animate-spin text-xl text-black dark:text-white' />
+					) : (
+						'Create'
+					)}
 				</Button>
 			</div>
 			<div className='mx-auto flex max-w-screen-2xl flex-col gap-8 py-12 lg:flex-row'>
@@ -146,7 +157,11 @@ const Create: NextPageWithLayout = () => {
 					onClick={onCreate}
 					disabled={loading}
 				>
-					Create
+					{loading ? (
+						<CgSpinner className='animate-spin text-xl text-black dark:text-white' />
+					) : (
+						'Create'
+					)}
 				</Button>
 			</div>
 		</div>

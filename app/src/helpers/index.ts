@@ -2,7 +2,7 @@ import type { AccessControlConditions } from '@lit-protocol/types';
 import type { Attribute, NFTMetadata } from '~/types';
 import { chainInfo } from '~/utils';
 
-const BASE_PATH = 'https://portals-teal.vercel.app';
+const BASE_PATH = 'http://localhost:3000';
 
 export const encrypt = async (
 	chain: string,
@@ -205,4 +205,21 @@ export const callContractFunction = async ({
 
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 	return json.data;
+};
+
+export const testUpdate = async () => {
+	const res = await fetch('/api/update-acc', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			chainId: '80001',
+			tokenId: '0',
+			uri: 'ipfs://QmQgwdtTzDJnbRbGyVDTEM1UtGhKaYLGDVE9N5eGrJbtca',
+		}),
+	});
+
+	const json = (await res.json()) as string;
+	return json;
 };

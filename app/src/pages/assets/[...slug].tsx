@@ -15,10 +15,18 @@ const Asset: NextPageWithLayout = () => {
 	const tokenId = slug?.at(1);
 
 	if (!chain || !tokenId) {
-		return <div>chain and token required</div>;
+		return <ErrorMessage message='Invalid URL' />;
 	} else if (!supportedChains.includes(chain)) {
-		return <div>only mumbai and fuji supported</div>;
+		return <ErrorMessage message='Unsupported Chain' />;
 	} else return <AssetPage chain={chain} tokenId={tokenId} />;
+};
+
+const ErrorMessage = ({ message }: { message: string }) => {
+	return (
+		<div className='py-16'>
+			<div className='text-center text-xl font-semibold'>{message}</div>
+		</div>
+	);
 };
 
 Asset.getLayout = function getLayout(page: ReactElement) {
