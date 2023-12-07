@@ -20,7 +20,9 @@ export const Holder = ({ title, Icon, children }: HolderProps) => {
 				<Icon className='text-lg' />
 				<span className='text-lg font-medium'>{title}</span>
 			</div>
-			<div className='px-4 py-2'>{children}</div>
+			<div className='flex flex-row flex-wrap items-center gap-2 px-4 py-2'>
+				{children}
+			</div>
 		</div>
 	);
 };
